@@ -80,7 +80,25 @@ const getAllPet = async (
   };
 };
 
+const updatePet = async (id: string, data: Partial<Pet>) => {
+  await prisma.pet.findUniqueOrThrow({
+    where: {
+      id,
+    },
+  });
+
+  const result = await prisma.pet.update({
+    where: {
+      id,
+    },
+    data,
+  });
+
+  return result;
+};
+
 export const PetService = {
   createPet,
   getAllPet,
+  updatePet,
 };

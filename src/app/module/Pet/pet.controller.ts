@@ -10,13 +10,12 @@ const createPet = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Pet Created successfully!",
+    message: "Pet added successfully",
     data: result,
   });
 });
 
 const getAllPet = catchAsync(async (req, res) => {
-  // console.log("req.query--=>", req.query);
   const filters = pick(req.query, petFilterableFields);
   const options = pick(req.query, ["limit", "page", "sortBy", "sortOrder"]);
 
@@ -24,7 +23,17 @@ const getAllPet = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Pets are retrieved successfully!",
+    message: "Pets retrieved successfully",
+    data: result,
+  });
+});
+
+const updatePet = catchAsync(async (req, res) => {
+  const result = await PetService.updatePet(req.params.petId, req.body);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Pet profile updated successfully",
     data: result,
   });
 });
@@ -32,4 +41,5 @@ const getAllPet = catchAsync(async (req, res) => {
 export const PetController = {
   createPet,
   getAllPet,
+  updatePet,
 };
