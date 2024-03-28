@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,14 +7,36 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id      String @default(uuid())
-  name    String
-  email   String   @unique
-  password String
+  id        String   @unique @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role UserRole @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@map("users")
+}
+
+model Pet {
+  id                   String   @unique @default(uuid())
+  name                 String
+  species              String
+  breed                String
+  age                  Int      @default(0)
+  size                 String
+  location             String
+  description          String
+  temperament          String
+  medicalHistory       String
+  adoptionRequirements String
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  @@map("pets")
+}
+
+enum UserRole {
+  USER
 }
