@@ -1,6 +1,8 @@
 import { Pet, PrismaClient } from "@prisma/client";
 import { petSearchAbleFields } from "./pet.constant";
 import { paginationHelper } from "../../../helpers/paginationHelpers";
+import { TPetFilterRequest } from "./pet.interface";
+import { TPaginationOptions } from "../../interface/pagination";
 const prisma = new PrismaClient();
 
 const createPet = async (payload: Pet) => {
@@ -10,7 +12,10 @@ const createPet = async (payload: Pet) => {
   return result;
 };
 
-const getAllPet = async (query, options) => {
+const getAllPet = async (
+  query: TPetFilterRequest,
+  options: TPaginationOptions
+) => {
   const { page, limit, skip, sortBy, sortOrder } =
     paginationHelper.calculatePagination(options);
 
@@ -38,7 +43,7 @@ const getAllPet = async (query, options) => {
   if (petFilteredFields.length > 0) {
     allCondition.push({
       AND: petFilteredFields.map((field) => ({
-        [field]: filterData[field],
+        [field]: (filterData as any)[field],
       })),
     });
   }
