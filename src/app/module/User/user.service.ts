@@ -55,15 +55,15 @@ const userLogin = async (payload: Partial<User>) => {
 
   const token = jwtHelpers.generateToken(
     {
-      email: user.email,
+      userId: user.id,
       role: user.role,
     },
     config.jwt.jwt_secret as Secret,
     config.jwt.expires_in as string
   );
 
-  const { password, ...removedPassword } = user;
-  const result = { ...removedPassword, token };
+  const { password, role, ...removedPasswordAndRole } = user;
+  const result = { ...removedPasswordAndRole, token };
 
   return result;
 };
