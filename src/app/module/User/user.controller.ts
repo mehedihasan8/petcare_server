@@ -34,8 +34,19 @@ const findProfile = catchAsync(async (req: Request & { user?: any }, res) => {
   });
 });
 
+const updateUser = catchAsync(async (req: Request & { user?: any }, res) => {
+  const result = await userService.updateUser(req.user.userId, req.body);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "User profile updated successfully",
+    data: result,
+  });
+});
+
 export const userController = {
   createUser,
   loginUser,
   findProfile,
+  updateUser,
 };

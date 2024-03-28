@@ -16,7 +16,7 @@ router.post(
 
 router.get("/", AdoptionRequestController.getAllAdoptionRequest);
 
-router.patch(
+router.put(
   "/:requestId",
   auth(UserRole.USER),
   validationRequest(AdoptionRequestValidation.updateAdoptionRequestValidation),

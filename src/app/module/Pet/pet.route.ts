@@ -16,7 +16,7 @@ router.post(
 
 router.get("/", PetController.getAllPet);
 
-router.patch(
+router.put(
   "/:petId",
   auth(UserRole.USER),
   validationRequest(PetValidation.updatePetValidation),

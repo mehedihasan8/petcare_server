@@ -25,7 +25,15 @@ const loginUserValidation = z.object({
   }),
 });
 
+const updateUserValidation = z.object({
+  body: z.object({
+    name: z.string().optional(),
+    email: z.string().optional(),
+  }),
+});
+
 export const userValidation = {
   createUserValidation,
   loginUserValidation,
+  updateUserValidation,
 };

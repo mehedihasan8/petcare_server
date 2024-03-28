@@ -85,8 +85,29 @@ const findProfile = async (id: string) => {
   return result;
 };
 
+const updateUser = async (id: string, data: Partial<User>) => {
+  console.log("id-->", id);
+
+  const result = await prisma.user.update({
+    where: {
+      id,
+    },
+    data,
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+
+  return result;
+};
+
 export const userService = {
   createUser,
   userLogin,
   findProfile,
+  updateUser,
 };

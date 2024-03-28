@@ -21,4 +21,11 @@ router.post(
 
 router.get("/profile", auth(UserRole.USER), userController.findProfile);
 
+router.put(
+  "/profile",
+  auth(UserRole.USER),
+  validationRequest(userValidation.updateUserValidation),
+  userController.updateUser
+);
+
 export const UserRoutes = router;
