@@ -7,7 +7,7 @@ import { Secret } from "jsonwebtoken";
 import config from "../../../config";
 import ApiError from "../../errors/apiError";
 import httpStatus from "http-status";
-const prisma = new PrismaClient();
+import prisma from "../../../shared/prisma";
 
 const createUser = async (payload: User) => {
   const alreadyExist = await prisma.user.findUnique({
@@ -68,7 +68,25 @@ const userLogin = async (payload: Partial<User>) => {
   return result;
 };
 
+const findProfile = async (id: string) => {
+  const result = await prisma.user.findUniqueOrThrow({
+    where: {
+      id,
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+
+  return result;
+};
+
 export const userService = {
   createUser,
   userLogin,
+  findProfile,
 };
