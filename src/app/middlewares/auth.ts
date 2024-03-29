@@ -15,7 +15,7 @@ const auth = (...roles: string[]) => {
       const token = req.headers.authorization;
 
       if (!token) {
-        throw new ApiError(httpStatus.UNAUTHORIZED, "You are not authorized!");
+        throw new Error("Undefined JWT");
       }
 
       const verifiedUser = jwtHelpers.verifyToken(
@@ -23,10 +23,14 @@ const auth = (...roles: string[]) => {
         config.jwt.jwt_secret as Secret
       );
 
+      if (!verifiedUser) {
+        throw new Error("Not Authorized User");
+      }
+
       req.user = verifiedUser;
 
       if (roles.length && !roles.includes(verifiedUser.role)) {
-        throw new ApiError(httpStatus.FORBIDDEN, "You are Forbidden!");
+        throw new Error("You are Forbidden!");
       }
       next();
     } catch (err) {

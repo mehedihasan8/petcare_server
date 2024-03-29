@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { ZodError } from "zod";
 import handleZodError from "../errors/handleZodError";
+import ApiError from "../errors/apiError";
 
 const globalErrorHandler = (
   err: any,
@@ -12,13 +13,27 @@ const globalErrorHandler = (
   let message = err.message || "Something Went Wrong";
   let errorDetails = err;
 
-  // console.log("err--=>", err);
-
   if (err instanceof ZodError) {
     const zodError = handleZodError(err);
     statusCode = zodError.statusCode;
     message = zodError.message;
     errorDetails = zodError.errorDetails;
+  } else if (err instanceof ApiError) {
+    statusCode = err.statusCode;
+    message = "Something Went Wrong";
+    errorDetails = {
+      error: err.message,
+      statusCode: err.statusCode,
+      stack: err.stack,
+    };
+  } else if (err instanceof Error) {
+    message = err.message;
+    message = "Unauthorized Access";
+    errorDetails = {
+      error: err.message,
+      statusCode: 401,
+      stack: err.stack,
+    };
   }
 
   res.status(statusCode).json({
