@@ -1,4 +1,6 @@
 import { NextFunction, Request, Response } from "express";
+import { ZodError } from "zod";
+import handleZodError from "../errors/handleZodError";
 
 const globalErrorHandler = (
   err: any,
@@ -6,10 +8,23 @@ const globalErrorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  res.status(500).json({
+  let statusCode = err.statusCode || 500;
+  let message = err.message || "Something Went Wrong";
+  let errorDetails = err;
+
+  // console.log("err--=>", err);
+
+  if (err instanceof ZodError) {
+    const zodError = handleZodError(err);
+    statusCode = zodError.statusCode;
+    message = zodError.message;
+    errorDetails = zodError.errorDetails;
+  }
+
+  res.status(statusCode).json({
     success: false,
-    message: err.name || "Something went wrong!",
-    error: err,
+    message,
+    errorDetails,
   });
 };
 

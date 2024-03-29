@@ -13,7 +13,7 @@ const createAdoptionRequest = catchAsync(
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.CREATED,
-      message: "AdoptionRequest added successfully",
+      message: "Adoption request submitted successfully",
       data: result,
     });
   }
@@ -37,7 +37,7 @@ const updateAdoptionRequest = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "AdoptionRequest profile updated successfully",
+    message: "Adoption request updated successfully",
     data: result,
   });
 });

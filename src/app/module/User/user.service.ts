@@ -10,14 +10,14 @@ import httpStatus from "http-status";
 import prisma from "../../../shared/prisma";
 
 const createUser = async (payload: User) => {
-  const alreadyExist = await prisma.user.findUnique({
+  const alreadyExist = await prisma.user.findFirst({
     where: {
       email: payload.email,
     },
   });
 
   if (alreadyExist) {
-    throw new ApiError(httpStatus.CONFLICT, "User already exist!");
+    throw new ApiError(httpStatus.CONFLICT, "Email is already exist!");
   }
 
   const hashedPassword = await bcrypt.hash(payload.password, 12);
@@ -38,7 +38,7 @@ const createUser = async (payload: User) => {
 };
 
 const userLogin = async (payload: Partial<User>) => {
-  const user = await prisma.user.findUniqueOrThrow({
+  const user = await prisma.user.findFirstOrThrow({
     where: {
       email: payload.email,
     },
@@ -86,7 +86,15 @@ const findProfile = async (id: string) => {
 };
 
 const updateUser = async (id: string, data: Partial<User>) => {
-  console.log("id-->", id);
+  const alreadyExist = await prisma.user.findFirst({
+    where: {
+      email: data.email,
+    },
+  });
+
+  if (alreadyExist) {
+    throw new ApiError(httpStatus.CONFLICT, "Email is already exist");
+  }
 
   const result = await prisma.user.update({
     where: {
