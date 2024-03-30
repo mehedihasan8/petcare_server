@@ -1,9 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import config from "../../config";
 import { Secret } from "jsonwebtoken";
-import httpStatus from "http-status";
 import { jwtHelpers } from "../../helpers/jwtHelpers";
-import ApiError from "../errors/apiError";
 
 const auth = (...roles: string[]) => {
   return async (
