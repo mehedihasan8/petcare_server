@@ -26,6 +26,8 @@ const createUser = async (payload: User) => {
     data: payload,
     select: {
       id: true,
+      role: true,
+      photo: true,
       name: true,
       email: true,
       createdAt: true,
@@ -74,6 +76,8 @@ const findProfile = async (id: string) => {
     },
     select: {
       id: true,
+      role: true,
+      photo: true,
       name: true,
       email: true,
       createdAt: true,

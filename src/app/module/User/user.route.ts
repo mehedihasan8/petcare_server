@@ -19,11 +19,15 @@ router.post(
   userController.loginUser
 );
 
-router.get("/profile", auth(UserRole.CUSTOMER), userController.findProfile);
+router.get(
+  "/profile",
+  auth(UserRole.ADMIN, UserRole.CUSTOMER),
+  userController.findProfile
+);
 
 router.put(
   "/profile",
-  auth(UserRole.CUSTOMER),
+  auth(UserRole.ADMIN, UserRole.CUSTOMER),
   validationRequest(userValidation.updateUserValidation),
   userController.updateUser
 );
