@@ -1,13 +1,12 @@
-import { User } from "@prisma/client";
 import bcrypt from "bcrypt";
 
-import { PrismaClient } from "@prisma/client";
 import { jwtHelpers } from "../../../helpers/jwtHelpers";
 import { Secret } from "jsonwebtoken";
 import config from "../../../config";
 import ApiError from "../../errors/apiError";
 import httpStatus from "http-status";
 import prisma from "../../../shared/prisma";
+import { User } from "../../../../prisma/generated/client";
 
 const createUser = async (payload: User) => {
   const alreadyExist = await prisma.user.findFirst({
@@ -62,7 +61,7 @@ const userLogin = async (payload: Partial<User>) => {
     config.jwt.expires_in as string
   );
 
-  const { password, role, ...removedPasswordAndRole } = user;
+  const { password, ...removedPasswordAndRole } = user;
   const result = { ...removedPasswordAndRole, token };
 
   return result;

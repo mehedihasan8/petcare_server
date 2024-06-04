@@ -11,9 +11,10 @@ datasource db {
 model User {
   id              String           @id @default(uuid())
   name            String
+  photo           String?
   email           String
   password        String
-  role            UserRole         @default(USER)
+  role            UserRole         @default(CUSTOMER)
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
   AdoptionRequest AdoptionRequest?
@@ -24,14 +25,18 @@ model User {
 model Pet {
   id                   String           @id @default(uuid())
   name                 String
+  photo                String
   species              String
   breed                String
   age                  Int              @default(0)
   size                 String
+  gender               Gender           @default(MALE)
+  specialNeeds         String?
   location             String
   description          String
   temperament          String
   medicalHistory       String
+  helthStatus          String
   adoptionRequirements String
   createdAt            DateTime         @default(now())
   updatedAt            DateTime         @updatedAt
@@ -55,10 +60,17 @@ model AdoptionRequest {
 }
 
 enum UserRole {
-  USER
+  CUSTOMER
+  ADMIN
 }
 
 enum Status {
   PENDING
   APPROVED
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHERS
 }

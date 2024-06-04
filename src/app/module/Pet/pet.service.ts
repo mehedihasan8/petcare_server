@@ -1,8 +1,8 @@
-import { Pet, PrismaClient } from "@prisma/client";
 import { petSearchAbleFields } from "./pet.constant";
 import { paginationHelper } from "../../../helpers/paginationHelpers";
 import { TPetFilterRequest } from "./pet.interface";
 import { TPaginationOptions } from "../../interface/pagination";
+import { Pet, PrismaClient } from "../../../../prisma/generated/client";
 const prisma = new PrismaClient();
 
 const createPet = async (payload: Pet) => {
@@ -80,6 +80,16 @@ const getAllPet = async (
   };
 };
 
+const getSinglePet = async (id: string) => {
+  const result = await prisma.pet.findUniqueOrThrow({
+    where: {
+      id,
+    },
+  });
+
+  return result;
+};
+
 const updatePet = async (id: string, data: Partial<Pet>) => {
   await prisma.pet.findUniqueOrThrow({
     where: {
@@ -100,5 +110,6 @@ const updatePet = async (id: string, data: Partial<Pet>) => {
 export const PetService = {
   createPet,
   getAllPet,
+  getSinglePet,
   updatePet,
 };

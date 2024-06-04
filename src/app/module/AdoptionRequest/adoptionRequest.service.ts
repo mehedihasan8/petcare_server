@@ -1,4 +1,4 @@
-import { AdoptionRequest } from "@prisma/client";
+import { AdoptionRequest } from "../../../../prisma/generated/client";
 import { paginationHelper } from "../../../helpers/paginationHelpers";
 import prisma from "../../../shared/prisma";
 

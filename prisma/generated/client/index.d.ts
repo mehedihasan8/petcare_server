@@ -34,10 +34,20 @@ export type AdoptionRequest = $Result.DefaultSelection<Prisma.$AdoptionRequestPa
  */
 export namespace $Enums {
   export const UserRole: {
-  USER: 'USER'
+  CUSTOMER: 'CUSTOMER',
+  ADMIN: 'ADMIN'
 };
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
+
+
+export const Gender: {
+  MALE: 'MALE',
+  FEMALE: 'FEMALE',
+  OTHERS: 'OTHERS'
+};
+
+export type Gender = (typeof Gender)[keyof typeof Gender]
 
 
 export const Status: {
@@ -52,6 +62,10 @@ export type Status = (typeof Status)[keyof typeof Status]
 export type UserRole = $Enums.UserRole
 
 export const UserRole: typeof $Enums.UserRole
+
+export type Gender = $Enums.Gender
+
+export const Gender: typeof $Enums.Gender
 
 export type Status = $Enums.Status
 
@@ -265,8 +279,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 5.11.0
-   * Query Engine version: efd2449663b3d73d637ea1fd226bafbcf45b3102
+   * Prisma Client JS version: 5.14.0
+   * Query Engine version: e9771e62de70f79a5e1c604a2d7c8e2a0a874b48
    */
   export type PrismaVersion = {
     client: string
@@ -393,6 +407,11 @@ export namespace Prisma {
     include: any
   }
 
+  type SelectAndOmit = {
+    select: any
+    omit: any
+  }
+
   /**
    * Get the type of the value, that the Promise holds.
    */
@@ -441,7 +460,9 @@ export namespace Prisma {
   } &
     (T extends SelectAndInclude
       ? 'Please either choose `select` or `include`.'
-      : {})
+      : T extends SelectAndOmit
+        ? 'Please either choose `select` or `omit`.'
+        : {})
 
   /**
    * Subset + Intersection
@@ -733,6 +754,10 @@ export namespace Prisma {
             args: Prisma.UserCreateManyArgs<ExtArgs>,
             result: Prisma.BatchPayload
           }
+          createManyAndReturn: {
+            args: Prisma.UserCreateManyAndReturnArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
+          }
           delete: {
             args: Prisma.UserDeleteArgs<ExtArgs>,
             result: $Utils.PayloadToResult<Prisma.$UserPayload>
@@ -799,6 +824,10 @@ export namespace Prisma {
             args: Prisma.PetCreateManyArgs<ExtArgs>,
             result: Prisma.BatchPayload
           }
+          createManyAndReturn: {
+            args: Prisma.PetCreateManyAndReturnArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$PetPayload>[]
+          }
           delete: {
             args: Prisma.PetDeleteArgs<ExtArgs>,
             result: $Utils.PayloadToResult<Prisma.$PetPayload>
@@ -864,6 +893,10 @@ export namespace Prisma {
           createMany: {
             args: Prisma.AdoptionRequestCreateManyArgs<ExtArgs>,
             result: Prisma.BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AdoptionRequestCreateManyAndReturnArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$AdoptionRequestPayload>[]
           }
           delete: {
             args: Prisma.AdoptionRequestDeleteArgs<ExtArgs>,
@@ -1004,6 +1037,7 @@ export namespace Prisma {
     | 'findFirstOrThrow'
     | 'create'
     | 'createMany'
+    | 'createManyAndReturn'
     | 'update'
     | 'updateMany'
     | 'upsert'
@@ -1071,6 +1105,7 @@ export namespace Prisma {
   export type UserMinAggregateOutputType = {
     id: string | null
     name: string | null
+    photo: string | null
     email: string | null
     password: string | null
     role: $Enums.UserRole | null
@@ -1081,6 +1116,7 @@ export namespace Prisma {
   export type UserMaxAggregateOutputType = {
     id: string | null
     name: string | null
+    photo: string | null
     email: string | null
     password: string | null
     role: $Enums.UserRole | null
@@ -1091,6 +1127,7 @@ export namespace Prisma {
   export type UserCountAggregateOutputType = {
     id: number
     name: number
+    photo: number
     email: number
     password: number
     role: number
@@ -1103,6 +1140,7 @@ export namespace Prisma {
   export type UserMinAggregateInputType = {
     id?: true
     name?: true
+    photo?: true
     email?: true
     password?: true
     role?: true
@@ -1113,6 +1151,7 @@ export namespace Prisma {
   export type UserMaxAggregateInputType = {
     id?: true
     name?: true
+    photo?: true
     email?: true
     password?: true
     role?: true
@@ -1123,6 +1162,7 @@ export namespace Prisma {
   export type UserCountAggregateInputType = {
     id?: true
     name?: true
+    photo?: true
     email?: true
     password?: true
     role?: true
@@ -1206,6 +1246,7 @@ export namespace Prisma {
   export type UserGroupByOutputType = {
     id: string
     name: string
+    photo: string | null
     email: string
     password: string
     role: $Enums.UserRole
@@ -1233,6 +1274,7 @@ export namespace Prisma {
   export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    photo?: boolean
     email?: boolean
     password?: boolean
     role?: boolean
@@ -1244,12 +1286,14 @@ export namespace Prisma {
   export type UserSelectScalar = {
     id?: boolean
     name?: boolean
+    photo?: boolean
     email?: boolean
     password?: boolean
     role?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
+
 
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     AdoptionRequest?: boolean | User$AdoptionRequestArgs<ExtArgs>
@@ -1264,6 +1308,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
+      photo: string | null
       email: string
       password: string
       role: $Enums.UserRole
@@ -1299,8 +1344,8 @@ export namespace Prisma {
     ): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
 
     /**
-     * Find one User that matches the filter or throw an error  with `error.code='P2025'` 
-     *     if no matches were found.
+     * Find one User that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
      * @param {UserFindUniqueOrThrowArgs} args - Arguments to find a User
      * @example
      * // Get one User
@@ -1353,7 +1398,7 @@ export namespace Prisma {
      * Find zero or more Users that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {UserFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {UserFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
      * // Get all Users
      * const users = await prisma.user.findMany()
@@ -1387,19 +1432,45 @@ export namespace Prisma {
 
     /**
      * Create many Users.
-     *     @param {UserCreateManyArgs} args - Arguments to create many Users.
-     *     @example
-     *     // Create many Users
-     *     const user = await prisma.user.createMany({
-     *       data: {
-     *         // ... provide data here
-     *       }
-     *     })
+     * @param {UserCreateManyArgs} args - Arguments to create many Users.
+     * @example
+     * // Create many Users
+     * const user = await prisma.user.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
      *     
     **/
     createMany<T extends UserCreateManyArgs<ExtArgs>>(
       args?: SelectSubset<T, UserCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Users and returns the data saved in the database.
+     * @param {UserCreateManyAndReturnArgs} args - Arguments to create many Users.
+     * @example
+     * // Create many Users
+     * const user = await prisma.user.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Users and only return the `id`
+     * const userWithIdOnly = await prisma.user.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+    **/
+    createManyAndReturn<T extends UserCreateManyAndReturnArgs<ExtArgs>>(
+      args?: SelectSubset<T, UserCreateManyAndReturnArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'createManyAndReturn'>>
 
     /**
      * Delete a User.
@@ -1666,6 +1737,7 @@ export namespace Prisma {
   interface UserFieldRefs {
     readonly id: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
+    readonly photo: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'UserRole'>
@@ -1675,7 +1747,6 @@ export namespace Prisma {
     
 
   // Custom InputTypes
-
   /**
    * User findUnique
    */
@@ -1685,7 +1756,7 @@ export namespace Prisma {
      */
     select?: UserSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
     /**
@@ -1693,7 +1764,6 @@ export namespace Prisma {
      */
     where: UserWhereUniqueInput
   }
-
 
   /**
    * User findUniqueOrThrow
@@ -1704,7 +1774,7 @@ export namespace Prisma {
      */
     select?: UserSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
     /**
@@ -1712,7 +1782,6 @@ export namespace Prisma {
      */
     where: UserWhereUniqueInput
   }
-
 
   /**
    * User findFirst
@@ -1723,7 +1792,7 @@ export namespace Prisma {
      */
     select?: UserSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
     /**
@@ -1761,7 +1830,6 @@ export namespace Prisma {
      */
     distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
   }
-
 
   /**
    * User findFirstOrThrow
@@ -1772,7 +1840,7 @@ export namespace Prisma {
      */
     select?: UserSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
     /**
@@ -1811,7 +1879,6 @@ export namespace Prisma {
     distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
   }
 
-
   /**
    * User findMany
    */
@@ -1821,7 +1888,7 @@ export namespace Prisma {
      */
     select?: UserSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
     /**
@@ -1855,7 +1922,6 @@ export namespace Prisma {
     distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
   }
 
-
   /**
    * User create
    */
@@ -1865,7 +1931,7 @@ export namespace Prisma {
      */
     select?: UserSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
     /**
@@ -1873,7 +1939,6 @@ export namespace Prisma {
      */
     data: XOR<UserCreateInput, UserUncheckedCreateInput>
   }
-
 
   /**
    * User createMany
@@ -1886,6 +1951,24 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  /**
+   * User createManyAndReturn
+   */
+  export type UserCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
+     * The data used to create many Users.
+     */
+    data: UserCreateManyInput | UserCreateManyInput[]
+    skipDuplicates?: boolean
+  }
 
   /**
    * User update
@@ -1896,7 +1979,7 @@ export namespace Prisma {
      */
     select?: UserSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
     /**
@@ -1908,7 +1991,6 @@ export namespace Prisma {
      */
     where: UserWhereUniqueInput
   }
-
 
   /**
    * User updateMany
@@ -1924,7 +2006,6 @@ export namespace Prisma {
     where?: UserWhereInput
   }
 
-
   /**
    * User upsert
    */
@@ -1934,7 +2015,7 @@ export namespace Prisma {
      */
     select?: UserSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
     /**
@@ -1951,7 +2032,6 @@ export namespace Prisma {
     update: XOR<UserUpdateInput, UserUncheckedUpdateInput>
   }
 
-
   /**
    * User delete
    */
@@ -1961,7 +2041,7 @@ export namespace Prisma {
      */
     select?: UserSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
     /**
@@ -1969,7 +2049,6 @@ export namespace Prisma {
      */
     where: UserWhereUniqueInput
   }
-
 
   /**
    * User deleteMany
@@ -1981,7 +2060,6 @@ export namespace Prisma {
     where?: UserWhereInput
   }
 
-
   /**
    * User.AdoptionRequest
    */
@@ -1991,12 +2069,11 @@ export namespace Prisma {
      */
     select?: AdoptionRequestSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: AdoptionRequestInclude<ExtArgs> | null
     where?: AdoptionRequestWhereInput
   }
-
 
   /**
    * User without action
@@ -2007,11 +2084,10 @@ export namespace Prisma {
      */
     select?: UserSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
   }
-
 
 
   /**
@@ -2037,14 +2113,18 @@ export namespace Prisma {
   export type PetMinAggregateOutputType = {
     id: string | null
     name: string | null
+    photo: string | null
     species: string | null
     breed: string | null
     age: number | null
     size: string | null
+    gender: $Enums.Gender | null
+    specialNeeds: string | null
     location: string | null
     description: string | null
     temperament: string | null
     medicalHistory: string | null
+    helthStatus: string | null
     adoptionRequirements: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -2053,14 +2133,18 @@ export namespace Prisma {
   export type PetMaxAggregateOutputType = {
     id: string | null
     name: string | null
+    photo: string | null
     species: string | null
     breed: string | null
     age: number | null
     size: string | null
+    gender: $Enums.Gender | null
+    specialNeeds: string | null
     location: string | null
     description: string | null
     temperament: string | null
     medicalHistory: string | null
+    helthStatus: string | null
     adoptionRequirements: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -2069,14 +2153,18 @@ export namespace Prisma {
   export type PetCountAggregateOutputType = {
     id: number
     name: number
+    photo: number
     species: number
     breed: number
     age: number
     size: number
+    gender: number
+    specialNeeds: number
     location: number
     description: number
     temperament: number
     medicalHistory: number
+    helthStatus: number
     adoptionRequirements: number
     createdAt: number
     updatedAt: number
@@ -2095,14 +2183,18 @@ export namespace Prisma {
   export type PetMinAggregateInputType = {
     id?: true
     name?: true
+    photo?: true
     species?: true
     breed?: true
     age?: true
     size?: true
+    gender?: true
+    specialNeeds?: true
     location?: true
     description?: true
     temperament?: true
     medicalHistory?: true
+    helthStatus?: true
     adoptionRequirements?: true
     createdAt?: true
     updatedAt?: true
@@ -2111,14 +2203,18 @@ export namespace Prisma {
   export type PetMaxAggregateInputType = {
     id?: true
     name?: true
+    photo?: true
     species?: true
     breed?: true
     age?: true
     size?: true
+    gender?: true
+    specialNeeds?: true
     location?: true
     description?: true
     temperament?: true
     medicalHistory?: true
+    helthStatus?: true
     adoptionRequirements?: true
     createdAt?: true
     updatedAt?: true
@@ -2127,14 +2223,18 @@ export namespace Prisma {
   export type PetCountAggregateInputType = {
     id?: true
     name?: true
+    photo?: true
     species?: true
     breed?: true
     age?: true
     size?: true
+    gender?: true
+    specialNeeds?: true
     location?: true
     description?: true
     temperament?: true
     medicalHistory?: true
+    helthStatus?: true
     adoptionRequirements?: true
     createdAt?: true
     updatedAt?: true
@@ -2230,14 +2330,18 @@ export namespace Prisma {
   export type PetGroupByOutputType = {
     id: string
     name: string
+    photo: string
     species: string
     breed: string
     age: number
     size: string
+    gender: $Enums.Gender
+    specialNeeds: string
     location: string
     description: string
     temperament: string
     medicalHistory: string
+    helthStatus: string
     adoptionRequirements: string
     createdAt: Date
     updatedAt: Date
@@ -2265,14 +2369,18 @@ export namespace Prisma {
   export type PetSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
+    photo?: boolean
     species?: boolean
     breed?: boolean
     age?: boolean
     size?: boolean
+    gender?: boolean
+    specialNeeds?: boolean
     location?: boolean
     description?: boolean
     temperament?: boolean
     medicalHistory?: boolean
+    helthStatus?: boolean
     adoptionRequirements?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -2282,18 +2390,23 @@ export namespace Prisma {
   export type PetSelectScalar = {
     id?: boolean
     name?: boolean
+    photo?: boolean
     species?: boolean
     breed?: boolean
     age?: boolean
     size?: boolean
+    gender?: boolean
+    specialNeeds?: boolean
     location?: boolean
     description?: boolean
     temperament?: boolean
     medicalHistory?: boolean
+    helthStatus?: boolean
     adoptionRequirements?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
+
 
   export type PetInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     AdoptionRequest?: boolean | Pet$AdoptionRequestArgs<ExtArgs>
@@ -2308,14 +2421,18 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
+      photo: string
       species: string
       breed: string
       age: number
       size: string
+      gender: $Enums.Gender
+      specialNeeds: string
       location: string
       description: string
       temperament: string
       medicalHistory: string
+      helthStatus: string
       adoptionRequirements: string
       createdAt: Date
       updatedAt: Date
@@ -2349,8 +2466,8 @@ export namespace Prisma {
     ): Prisma__PetClient<$Result.GetResult<Prisma.$PetPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
 
     /**
-     * Find one Pet that matches the filter or throw an error  with `error.code='P2025'` 
-     *     if no matches were found.
+     * Find one Pet that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
      * @param {PetFindUniqueOrThrowArgs} args - Arguments to find a Pet
      * @example
      * // Get one Pet
@@ -2403,7 +2520,7 @@ export namespace Prisma {
      * Find zero or more Pets that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PetFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {PetFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
      * // Get all Pets
      * const pets = await prisma.pet.findMany()
@@ -2437,19 +2554,45 @@ export namespace Prisma {
 
     /**
      * Create many Pets.
-     *     @param {PetCreateManyArgs} args - Arguments to create many Pets.
-     *     @example
-     *     // Create many Pets
-     *     const pet = await prisma.pet.createMany({
-     *       data: {
-     *         // ... provide data here
-     *       }
-     *     })
+     * @param {PetCreateManyArgs} args - Arguments to create many Pets.
+     * @example
+     * // Create many Pets
+     * const pet = await prisma.pet.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
      *     
     **/
     createMany<T extends PetCreateManyArgs<ExtArgs>>(
       args?: SelectSubset<T, PetCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Pets and returns the data saved in the database.
+     * @param {PetCreateManyAndReturnArgs} args - Arguments to create many Pets.
+     * @example
+     * // Create many Pets
+     * const pet = await prisma.pet.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Pets and only return the `id`
+     * const petWithIdOnly = await prisma.pet.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+    **/
+    createManyAndReturn<T extends PetCreateManyAndReturnArgs<ExtArgs>>(
+      args?: SelectSubset<T, PetCreateManyAndReturnArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PetPayload<ExtArgs>, T, 'createManyAndReturn'>>
 
     /**
      * Delete a Pet.
@@ -2716,14 +2859,18 @@ export namespace Prisma {
   interface PetFieldRefs {
     readonly id: FieldRef<"Pet", 'String'>
     readonly name: FieldRef<"Pet", 'String'>
+    readonly photo: FieldRef<"Pet", 'String'>
     readonly species: FieldRef<"Pet", 'String'>
     readonly breed: FieldRef<"Pet", 'String'>
     readonly age: FieldRef<"Pet", 'Int'>
     readonly size: FieldRef<"Pet", 'String'>
+    readonly gender: FieldRef<"Pet", 'Gender'>
+    readonly specialNeeds: FieldRef<"Pet", 'String'>
     readonly location: FieldRef<"Pet", 'String'>
     readonly description: FieldRef<"Pet", 'String'>
     readonly temperament: FieldRef<"Pet", 'String'>
     readonly medicalHistory: FieldRef<"Pet", 'String'>
+    readonly helthStatus: FieldRef<"Pet", 'String'>
     readonly adoptionRequirements: FieldRef<"Pet", 'String'>
     readonly createdAt: FieldRef<"Pet", 'DateTime'>
     readonly updatedAt: FieldRef<"Pet", 'DateTime'>
@@ -2731,7 +2878,6 @@ export namespace Prisma {
     
 
   // Custom InputTypes
-
   /**
    * Pet findUnique
    */
@@ -2741,7 +2887,7 @@ export namespace Prisma {
      */
     select?: PetSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: PetInclude<ExtArgs> | null
     /**
@@ -2749,7 +2895,6 @@ export namespace Prisma {
      */
     where: PetWhereUniqueInput
   }
-
 
   /**
    * Pet findUniqueOrThrow
@@ -2760,7 +2905,7 @@ export namespace Prisma {
      */
     select?: PetSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: PetInclude<ExtArgs> | null
     /**
@@ -2768,7 +2913,6 @@ export namespace Prisma {
      */
     where: PetWhereUniqueInput
   }
-
 
   /**
    * Pet findFirst
@@ -2779,7 +2923,7 @@ export namespace Prisma {
      */
     select?: PetSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: PetInclude<ExtArgs> | null
     /**
@@ -2817,7 +2961,6 @@ export namespace Prisma {
      */
     distinct?: PetScalarFieldEnum | PetScalarFieldEnum[]
   }
-
 
   /**
    * Pet findFirstOrThrow
@@ -2828,7 +2971,7 @@ export namespace Prisma {
      */
     select?: PetSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: PetInclude<ExtArgs> | null
     /**
@@ -2867,7 +3010,6 @@ export namespace Prisma {
     distinct?: PetScalarFieldEnum | PetScalarFieldEnum[]
   }
 
-
   /**
    * Pet findMany
    */
@@ -2877,7 +3019,7 @@ export namespace Prisma {
      */
     select?: PetSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: PetInclude<ExtArgs> | null
     /**
@@ -2911,7 +3053,6 @@ export namespace Prisma {
     distinct?: PetScalarFieldEnum | PetScalarFieldEnum[]
   }
 
-
   /**
    * Pet create
    */
@@ -2921,7 +3062,7 @@ export namespace Prisma {
      */
     select?: PetSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: PetInclude<ExtArgs> | null
     /**
@@ -2929,7 +3070,6 @@ export namespace Prisma {
      */
     data: XOR<PetCreateInput, PetUncheckedCreateInput>
   }
-
 
   /**
    * Pet createMany
@@ -2942,6 +3082,24 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  /**
+   * Pet createManyAndReturn
+   */
+  export type PetCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Pet
+     */
+    select?: PetSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PetInclude<ExtArgs> | null
+    /**
+     * The data used to create many Pets.
+     */
+    data: PetCreateManyInput | PetCreateManyInput[]
+    skipDuplicates?: boolean
+  }
 
   /**
    * Pet update
@@ -2952,7 +3110,7 @@ export namespace Prisma {
      */
     select?: PetSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: PetInclude<ExtArgs> | null
     /**
@@ -2964,7 +3122,6 @@ export namespace Prisma {
      */
     where: PetWhereUniqueInput
   }
-
 
   /**
    * Pet updateMany
@@ -2980,7 +3137,6 @@ export namespace Prisma {
     where?: PetWhereInput
   }
 
-
   /**
    * Pet upsert
    */
@@ -2990,7 +3146,7 @@ export namespace Prisma {
      */
     select?: PetSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: PetInclude<ExtArgs> | null
     /**
@@ -3007,7 +3163,6 @@ export namespace Prisma {
     update: XOR<PetUpdateInput, PetUncheckedUpdateInput>
   }
 
-
   /**
    * Pet delete
    */
@@ -3017,7 +3172,7 @@ export namespace Prisma {
      */
     select?: PetSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: PetInclude<ExtArgs> | null
     /**
@@ -3025,7 +3180,6 @@ export namespace Prisma {
      */
     where: PetWhereUniqueInput
   }
-
 
   /**
    * Pet deleteMany
@@ -3037,7 +3191,6 @@ export namespace Prisma {
     where?: PetWhereInput
   }
 
-
   /**
    * Pet.AdoptionRequest
    */
@@ -3047,12 +3200,11 @@ export namespace Prisma {
      */
     select?: AdoptionRequestSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: AdoptionRequestInclude<ExtArgs> | null
     where?: AdoptionRequestWhereInput
   }
-
 
   /**
    * Pet without action
@@ -3063,11 +3215,10 @@ export namespace Prisma {
      */
     select?: PetSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: PetInclude<ExtArgs> | null
   }
-
 
 
   /**
@@ -3264,6 +3415,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
+
   export type AdoptionRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     pet?: boolean | PetDefaultArgs<ExtArgs>
@@ -3314,8 +3466,8 @@ export namespace Prisma {
     ): Prisma__AdoptionRequestClient<$Result.GetResult<Prisma.$AdoptionRequestPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
 
     /**
-     * Find one AdoptionRequest that matches the filter or throw an error  with `error.code='P2025'` 
-     *     if no matches were found.
+     * Find one AdoptionRequest that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
      * @param {AdoptionRequestFindUniqueOrThrowArgs} args - Arguments to find a AdoptionRequest
      * @example
      * // Get one AdoptionRequest
@@ -3368,7 +3520,7 @@ export namespace Prisma {
      * Find zero or more AdoptionRequests that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {AdoptionRequestFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {AdoptionRequestFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
      * // Get all AdoptionRequests
      * const adoptionRequests = await prisma.adoptionRequest.findMany()
@@ -3402,19 +3554,45 @@ export namespace Prisma {
 
     /**
      * Create many AdoptionRequests.
-     *     @param {AdoptionRequestCreateManyArgs} args - Arguments to create many AdoptionRequests.
-     *     @example
-     *     // Create many AdoptionRequests
-     *     const adoptionRequest = await prisma.adoptionRequest.createMany({
-     *       data: {
-     *         // ... provide data here
-     *       }
-     *     })
+     * @param {AdoptionRequestCreateManyArgs} args - Arguments to create many AdoptionRequests.
+     * @example
+     * // Create many AdoptionRequests
+     * const adoptionRequest = await prisma.adoptionRequest.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
      *     
     **/
     createMany<T extends AdoptionRequestCreateManyArgs<ExtArgs>>(
       args?: SelectSubset<T, AdoptionRequestCreateManyArgs<ExtArgs>>
     ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AdoptionRequests and returns the data saved in the database.
+     * @param {AdoptionRequestCreateManyAndReturnArgs} args - Arguments to create many AdoptionRequests.
+     * @example
+     * // Create many AdoptionRequests
+     * const adoptionRequest = await prisma.adoptionRequest.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AdoptionRequests and only return the `id`
+     * const adoptionRequestWithIdOnly = await prisma.adoptionRequest.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+    **/
+    createManyAndReturn<T extends AdoptionRequestCreateManyAndReturnArgs<ExtArgs>>(
+      args?: SelectSubset<T, AdoptionRequestCreateManyAndReturnArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdoptionRequestPayload<ExtArgs>, T, 'createManyAndReturn'>>
 
     /**
      * Delete a AdoptionRequest.
@@ -3692,7 +3870,6 @@ export namespace Prisma {
     
 
   // Custom InputTypes
-
   /**
    * AdoptionRequest findUnique
    */
@@ -3702,7 +3879,7 @@ export namespace Prisma {
      */
     select?: AdoptionRequestSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: AdoptionRequestInclude<ExtArgs> | null
     /**
@@ -3710,7 +3887,6 @@ export namespace Prisma {
      */
     where: AdoptionRequestWhereUniqueInput
   }
-
 
   /**
    * AdoptionRequest findUniqueOrThrow
@@ -3721,7 +3897,7 @@ export namespace Prisma {
      */
     select?: AdoptionRequestSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: AdoptionRequestInclude<ExtArgs> | null
     /**
@@ -3729,7 +3905,6 @@ export namespace Prisma {
      */
     where: AdoptionRequestWhereUniqueInput
   }
-
 
   /**
    * AdoptionRequest findFirst
@@ -3740,7 +3915,7 @@ export namespace Prisma {
      */
     select?: AdoptionRequestSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: AdoptionRequestInclude<ExtArgs> | null
     /**
@@ -3778,7 +3953,6 @@ export namespace Prisma {
      */
     distinct?: AdoptionRequestScalarFieldEnum | AdoptionRequestScalarFieldEnum[]
   }
-
 
   /**
    * AdoptionRequest findFirstOrThrow
@@ -3789,7 +3963,7 @@ export namespace Prisma {
      */
     select?: AdoptionRequestSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: AdoptionRequestInclude<ExtArgs> | null
     /**
@@ -3828,7 +4002,6 @@ export namespace Prisma {
     distinct?: AdoptionRequestScalarFieldEnum | AdoptionRequestScalarFieldEnum[]
   }
 
-
   /**
    * AdoptionRequest findMany
    */
@@ -3838,7 +4011,7 @@ export namespace Prisma {
      */
     select?: AdoptionRequestSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: AdoptionRequestInclude<ExtArgs> | null
     /**
@@ -3872,7 +4045,6 @@ export namespace Prisma {
     distinct?: AdoptionRequestScalarFieldEnum | AdoptionRequestScalarFieldEnum[]
   }
 
-
   /**
    * AdoptionRequest create
    */
@@ -3882,7 +4054,7 @@ export namespace Prisma {
      */
     select?: AdoptionRequestSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: AdoptionRequestInclude<ExtArgs> | null
     /**
@@ -3890,7 +4062,6 @@ export namespace Prisma {
      */
     data: XOR<AdoptionRequestCreateInput, AdoptionRequestUncheckedCreateInput>
   }
-
 
   /**
    * AdoptionRequest createMany
@@ -3903,6 +4074,24 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  /**
+   * AdoptionRequest createManyAndReturn
+   */
+  export type AdoptionRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdoptionRequest
+     */
+    select?: AdoptionRequestSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdoptionRequestInclude<ExtArgs> | null
+    /**
+     * The data used to create many AdoptionRequests.
+     */
+    data: AdoptionRequestCreateManyInput | AdoptionRequestCreateManyInput[]
+    skipDuplicates?: boolean
+  }
 
   /**
    * AdoptionRequest update
@@ -3913,7 +4102,7 @@ export namespace Prisma {
      */
     select?: AdoptionRequestSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: AdoptionRequestInclude<ExtArgs> | null
     /**
@@ -3925,7 +4114,6 @@ export namespace Prisma {
      */
     where: AdoptionRequestWhereUniqueInput
   }
-
 
   /**
    * AdoptionRequest updateMany
@@ -3941,7 +4129,6 @@ export namespace Prisma {
     where?: AdoptionRequestWhereInput
   }
 
-
   /**
    * AdoptionRequest upsert
    */
@@ -3951,7 +4138,7 @@ export namespace Prisma {
      */
     select?: AdoptionRequestSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: AdoptionRequestInclude<ExtArgs> | null
     /**
@@ -3968,7 +4155,6 @@ export namespace Prisma {
     update: XOR<AdoptionRequestUpdateInput, AdoptionRequestUncheckedUpdateInput>
   }
 
-
   /**
    * AdoptionRequest delete
    */
@@ -3978,7 +4164,7 @@ export namespace Prisma {
      */
     select?: AdoptionRequestSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: AdoptionRequestInclude<ExtArgs> | null
     /**
@@ -3986,7 +4172,6 @@ export namespace Prisma {
      */
     where: AdoptionRequestWhereUniqueInput
   }
-
 
   /**
    * AdoptionRequest deleteMany
@@ -3998,7 +4183,6 @@ export namespace Prisma {
     where?: AdoptionRequestWhereInput
   }
 
-
   /**
    * AdoptionRequest without action
    */
@@ -4008,11 +4192,10 @@ export namespace Prisma {
      */
     select?: AdoptionRequestSelect<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well.
+     * Choose, which related nodes to fetch as well
      */
     include?: AdoptionRequestInclude<ExtArgs> | null
   }
-
 
 
   /**
@@ -4032,6 +4215,7 @@ export namespace Prisma {
   export const UserScalarFieldEnum: {
     id: 'id',
     name: 'name',
+    photo: 'photo',
     email: 'email',
     password: 'password',
     role: 'role',
@@ -4045,14 +4229,18 @@ export namespace Prisma {
   export const PetScalarFieldEnum: {
     id: 'id',
     name: 'name',
+    photo: 'photo',
     species: 'species',
     breed: 'breed',
     age: 'age',
     size: 'size',
+    gender: 'gender',
+    specialNeeds: 'specialNeeds',
     location: 'location',
     description: 'description',
     temperament: 'temperament',
     medicalHistory: 'medicalHistory',
+    helthStatus: 'helthStatus',
     adoptionRequirements: 'adoptionRequirements',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -4088,6 +4276,14 @@ export namespace Prisma {
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -4152,6 +4348,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Gender'
+   */
+  export type EnumGenderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Gender'>
+    
+
+
+  /**
+   * Reference to a field of type 'Gender[]'
+   */
+  export type ListEnumGenderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Gender[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Status'
    */
   export type EnumStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Status'>
@@ -4188,6 +4398,7 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     id?: StringFilter<"User"> | string
     name?: StringFilter<"User"> | string
+    photo?: StringNullableFilter<"User"> | string | null
     email?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
@@ -4199,6 +4410,7 @@ export namespace Prisma {
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
+    photo?: SortOrderInput | SortOrder
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
@@ -4213,6 +4425,7 @@ export namespace Prisma {
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringFilter<"User"> | string
+    photo?: StringNullableFilter<"User"> | string | null
     email?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
@@ -4224,6 +4437,7 @@ export namespace Prisma {
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
+    photo?: SortOrderInput | SortOrder
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
@@ -4240,6 +4454,7 @@ export namespace Prisma {
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"User"> | string
     name?: StringWithAggregatesFilter<"User"> | string
+    photo?: StringNullableWithAggregatesFilter<"User"> | string | null
     email?: StringWithAggregatesFilter<"User"> | string
     password?: StringWithAggregatesFilter<"User"> | string
     role?: EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
@@ -4253,14 +4468,18 @@ export namespace Prisma {
     NOT?: PetWhereInput | PetWhereInput[]
     id?: StringFilter<"Pet"> | string
     name?: StringFilter<"Pet"> | string
+    photo?: StringFilter<"Pet"> | string
     species?: StringFilter<"Pet"> | string
     breed?: StringFilter<"Pet"> | string
     age?: IntFilter<"Pet"> | number
     size?: StringFilter<"Pet"> | string
+    gender?: EnumGenderFilter<"Pet"> | $Enums.Gender
+    specialNeeds?: StringFilter<"Pet"> | string
     location?: StringFilter<"Pet"> | string
     description?: StringFilter<"Pet"> | string
     temperament?: StringFilter<"Pet"> | string
     medicalHistory?: StringFilter<"Pet"> | string
+    helthStatus?: StringFilter<"Pet"> | string
     adoptionRequirements?: StringFilter<"Pet"> | string
     createdAt?: DateTimeFilter<"Pet"> | Date | string
     updatedAt?: DateTimeFilter<"Pet"> | Date | string
@@ -4270,14 +4489,18 @@ export namespace Prisma {
   export type PetOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
+    photo?: SortOrder
     species?: SortOrder
     breed?: SortOrder
     age?: SortOrder
     size?: SortOrder
+    gender?: SortOrder
+    specialNeeds?: SortOrder
     location?: SortOrder
     description?: SortOrder
     temperament?: SortOrder
     medicalHistory?: SortOrder
+    helthStatus?: SortOrder
     adoptionRequirements?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -4290,14 +4513,18 @@ export namespace Prisma {
     OR?: PetWhereInput[]
     NOT?: PetWhereInput | PetWhereInput[]
     name?: StringFilter<"Pet"> | string
+    photo?: StringFilter<"Pet"> | string
     species?: StringFilter<"Pet"> | string
     breed?: StringFilter<"Pet"> | string
     age?: IntFilter<"Pet"> | number
     size?: StringFilter<"Pet"> | string
+    gender?: EnumGenderFilter<"Pet"> | $Enums.Gender
+    specialNeeds?: StringFilter<"Pet"> | string
     location?: StringFilter<"Pet"> | string
     description?: StringFilter<"Pet"> | string
     temperament?: StringFilter<"Pet"> | string
     medicalHistory?: StringFilter<"Pet"> | string
+    helthStatus?: StringFilter<"Pet"> | string
     adoptionRequirements?: StringFilter<"Pet"> | string
     createdAt?: DateTimeFilter<"Pet"> | Date | string
     updatedAt?: DateTimeFilter<"Pet"> | Date | string
@@ -4307,14 +4534,18 @@ export namespace Prisma {
   export type PetOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
+    photo?: SortOrder
     species?: SortOrder
     breed?: SortOrder
     age?: SortOrder
     size?: SortOrder
+    gender?: SortOrder
+    specialNeeds?: SortOrder
     location?: SortOrder
     description?: SortOrder
     temperament?: SortOrder
     medicalHistory?: SortOrder
+    helthStatus?: SortOrder
     adoptionRequirements?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -4331,14 +4562,18 @@ export namespace Prisma {
     NOT?: PetScalarWhereWithAggregatesInput | PetScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Pet"> | string
     name?: StringWithAggregatesFilter<"Pet"> | string
+    photo?: StringWithAggregatesFilter<"Pet"> | string
     species?: StringWithAggregatesFilter<"Pet"> | string
     breed?: StringWithAggregatesFilter<"Pet"> | string
     age?: IntWithAggregatesFilter<"Pet"> | number
     size?: StringWithAggregatesFilter<"Pet"> | string
+    gender?: EnumGenderWithAggregatesFilter<"Pet"> | $Enums.Gender
+    specialNeeds?: StringWithAggregatesFilter<"Pet"> | string
     location?: StringWithAggregatesFilter<"Pet"> | string
     description?: StringWithAggregatesFilter<"Pet"> | string
     temperament?: StringWithAggregatesFilter<"Pet"> | string
     medicalHistory?: StringWithAggregatesFilter<"Pet"> | string
+    helthStatus?: StringWithAggregatesFilter<"Pet"> | string
     adoptionRequirements?: StringWithAggregatesFilter<"Pet"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Pet"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Pet"> | Date | string
@@ -4415,6 +4650,7 @@ export namespace Prisma {
   export type UserCreateInput = {
     id?: string
     name: string
+    photo?: string | null
     email: string
     password: string
     role?: $Enums.UserRole
@@ -4426,6 +4662,7 @@ export namespace Prisma {
   export type UserUncheckedCreateInput = {
     id?: string
     name: string
+    photo?: string | null
     email: string
     password: string
     role?: $Enums.UserRole
@@ -4437,6 +4674,7 @@ export namespace Prisma {
   export type UserUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -4448,6 +4686,7 @@ export namespace Prisma {
   export type UserUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -4459,6 +4698,7 @@ export namespace Prisma {
   export type UserCreateManyInput = {
     id?: string
     name: string
+    photo?: string | null
     email: string
     password: string
     role?: $Enums.UserRole
@@ -4469,6 +4709,7 @@ export namespace Prisma {
   export type UserUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -4479,6 +4720,7 @@ export namespace Prisma {
   export type UserUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -4489,14 +4731,18 @@ export namespace Prisma {
   export type PetCreateInput = {
     id?: string
     name: string
+    photo: string
     species: string
     breed: string
     age?: number
     size: string
+    gender?: $Enums.Gender
+    specialNeeds: string
     location: string
     description: string
     temperament: string
     medicalHistory: string
+    helthStatus: string
     adoptionRequirements: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -4506,14 +4752,18 @@ export namespace Prisma {
   export type PetUncheckedCreateInput = {
     id?: string
     name: string
+    photo: string
     species: string
     breed: string
     age?: number
     size: string
+    gender?: $Enums.Gender
+    specialNeeds: string
     location: string
     description: string
     temperament: string
     medicalHistory: string
+    helthStatus: string
     adoptionRequirements: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -4523,14 +4773,18 @@ export namespace Prisma {
   export type PetUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    photo?: StringFieldUpdateOperationsInput | string
     species?: StringFieldUpdateOperationsInput | string
     breed?: StringFieldUpdateOperationsInput | string
     age?: IntFieldUpdateOperationsInput | number
     size?: StringFieldUpdateOperationsInput | string
+    gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+    specialNeeds?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     temperament?: StringFieldUpdateOperationsInput | string
     medicalHistory?: StringFieldUpdateOperationsInput | string
+    helthStatus?: StringFieldUpdateOperationsInput | string
     adoptionRequirements?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4540,14 +4794,18 @@ export namespace Prisma {
   export type PetUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    photo?: StringFieldUpdateOperationsInput | string
     species?: StringFieldUpdateOperationsInput | string
     breed?: StringFieldUpdateOperationsInput | string
     age?: IntFieldUpdateOperationsInput | number
     size?: StringFieldUpdateOperationsInput | string
+    gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+    specialNeeds?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     temperament?: StringFieldUpdateOperationsInput | string
     medicalHistory?: StringFieldUpdateOperationsInput | string
+    helthStatus?: StringFieldUpdateOperationsInput | string
     adoptionRequirements?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4557,14 +4815,18 @@ export namespace Prisma {
   export type PetCreateManyInput = {
     id?: string
     name: string
+    photo: string
     species: string
     breed: string
     age?: number
     size: string
+    gender?: $Enums.Gender
+    specialNeeds: string
     location: string
     description: string
     temperament: string
     medicalHistory: string
+    helthStatus: string
     adoptionRequirements: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -4573,14 +4835,18 @@ export namespace Prisma {
   export type PetUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    photo?: StringFieldUpdateOperationsInput | string
     species?: StringFieldUpdateOperationsInput | string
     breed?: StringFieldUpdateOperationsInput | string
     age?: IntFieldUpdateOperationsInput | number
     size?: StringFieldUpdateOperationsInput | string
+    gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+    specialNeeds?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     temperament?: StringFieldUpdateOperationsInput | string
     medicalHistory?: StringFieldUpdateOperationsInput | string
+    helthStatus?: StringFieldUpdateOperationsInput | string
     adoptionRequirements?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4589,14 +4855,18 @@ export namespace Prisma {
   export type PetUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    photo?: StringFieldUpdateOperationsInput | string
     species?: StringFieldUpdateOperationsInput | string
     breed?: StringFieldUpdateOperationsInput | string
     age?: IntFieldUpdateOperationsInput | number
     size?: StringFieldUpdateOperationsInput | string
+    gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+    specialNeeds?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     temperament?: StringFieldUpdateOperationsInput | string
     medicalHistory?: StringFieldUpdateOperationsInput | string
+    helthStatus?: StringFieldUpdateOperationsInput | string
     adoptionRequirements?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -4685,6 +4955,21 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type EnumUserRoleFilter<$PrismaModel = never> = {
     equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
     in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
@@ -4708,9 +4993,15 @@ export namespace Prisma {
     isNot?: AdoptionRequestWhereInput | null
   }
 
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    photo?: SortOrder
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
@@ -4721,6 +5012,7 @@ export namespace Prisma {
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    photo?: SortOrder
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
@@ -4731,6 +5023,7 @@ export namespace Prisma {
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    photo?: SortOrder
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
@@ -4754,6 +5047,24 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type EnumUserRoleWithAggregatesFilter<$PrismaModel = never> = {
@@ -4791,17 +5102,28 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type EnumGenderFilter<$PrismaModel = never> = {
+    equals?: $Enums.Gender | EnumGenderFieldRefInput<$PrismaModel>
+    in?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel>
+    not?: NestedEnumGenderFilter<$PrismaModel> | $Enums.Gender
+  }
+
   export type PetCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    photo?: SortOrder
     species?: SortOrder
     breed?: SortOrder
     age?: SortOrder
     size?: SortOrder
+    gender?: SortOrder
+    specialNeeds?: SortOrder
     location?: SortOrder
     description?: SortOrder
     temperament?: SortOrder
     medicalHistory?: SortOrder
+    helthStatus?: SortOrder
     adoptionRequirements?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -4814,14 +5136,18 @@ export namespace Prisma {
   export type PetMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    photo?: SortOrder
     species?: SortOrder
     breed?: SortOrder
     age?: SortOrder
     size?: SortOrder
+    gender?: SortOrder
+    specialNeeds?: SortOrder
     location?: SortOrder
     description?: SortOrder
     temperament?: SortOrder
     medicalHistory?: SortOrder
+    helthStatus?: SortOrder
     adoptionRequirements?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -4830,14 +5156,18 @@ export namespace Prisma {
   export type PetMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
+    photo?: SortOrder
     species?: SortOrder
     breed?: SortOrder
     age?: SortOrder
     size?: SortOrder
+    gender?: SortOrder
+    specialNeeds?: SortOrder
     location?: SortOrder
     description?: SortOrder
     temperament?: SortOrder
     medicalHistory?: SortOrder
+    helthStatus?: SortOrder
     adoptionRequirements?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -4861,6 +5191,16 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type EnumGenderWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Gender | EnumGenderFieldRefInput<$PrismaModel>
+    in?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel>
+    not?: NestedEnumGenderWithAggregatesFilter<$PrismaModel> | $Enums.Gender
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumGenderFilter<$PrismaModel>
+    _max?: NestedEnumGenderFilter<$PrismaModel>
   }
 
   export type EnumStatusFilter<$PrismaModel = never> = {
@@ -4936,6 +5276,10 @@ export namespace Prisma {
     set?: string
   }
 
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
   export type EnumUserRoleFieldUpdateOperationsInput = {
     set?: $Enums.UserRole
   }
@@ -4982,6 +5326,10 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type EnumGenderFieldUpdateOperationsInput = {
+    set?: $Enums.Gender
   }
 
   export type AdoptionRequestUpdateOneWithoutPetNestedInput = {
@@ -5050,6 +5398,20 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type NestedEnumUserRoleFilter<$PrismaModel = never> = {
     equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
     in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
@@ -5096,6 +5458,34 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedEnumUserRoleWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
     in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
@@ -5118,6 +5508,13 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumGenderFilter<$PrismaModel = never> = {
+    equals?: $Enums.Gender | EnumGenderFieldRefInput<$PrismaModel>
+    in?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel>
+    not?: NestedEnumGenderFilter<$PrismaModel> | $Enums.Gender
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -5145,6 +5542,16 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedEnumGenderWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Gender | EnumGenderFieldRefInput<$PrismaModel>
+    in?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel>
+    notIn?: $Enums.Gender[] | ListEnumGenderFieldRefInput<$PrismaModel>
+    not?: NestedEnumGenderWithAggregatesFilter<$PrismaModel> | $Enums.Gender
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumGenderFilter<$PrismaModel>
+    _max?: NestedEnumGenderFilter<$PrismaModel>
   }
 
   export type NestedEnumStatusFilter<$PrismaModel = never> = {
@@ -5271,6 +5678,7 @@ export namespace Prisma {
   export type UserCreateWithoutAdoptionRequestInput = {
     id?: string
     name: string
+    photo?: string | null
     email: string
     password: string
     role?: $Enums.UserRole
@@ -5281,6 +5689,7 @@ export namespace Prisma {
   export type UserUncheckedCreateWithoutAdoptionRequestInput = {
     id?: string
     name: string
+    photo?: string | null
     email: string
     password: string
     role?: $Enums.UserRole
@@ -5296,14 +5705,18 @@ export namespace Prisma {
   export type PetCreateWithoutAdoptionRequestInput = {
     id?: string
     name: string
+    photo: string
     species: string
     breed: string
     age?: number
     size: string
+    gender?: $Enums.Gender
+    specialNeeds: string
     location: string
     description: string
     temperament: string
     medicalHistory: string
+    helthStatus: string
     adoptionRequirements: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -5312,14 +5725,18 @@ export namespace Prisma {
   export type PetUncheckedCreateWithoutAdoptionRequestInput = {
     id?: string
     name: string
+    photo: string
     species: string
     breed: string
     age?: number
     size: string
+    gender?: $Enums.Gender
+    specialNeeds: string
     location: string
     description: string
     temperament: string
     medicalHistory: string
+    helthStatus: string
     adoptionRequirements: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -5344,6 +5761,7 @@ export namespace Prisma {
   export type UserUpdateWithoutAdoptionRequestInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -5354,6 +5772,7 @@ export namespace Prisma {
   export type UserUncheckedUpdateWithoutAdoptionRequestInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    photo?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
@@ -5375,14 +5794,18 @@ export namespace Prisma {
   export type PetUpdateWithoutAdoptionRequestInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    photo?: StringFieldUpdateOperationsInput | string
     species?: StringFieldUpdateOperationsInput | string
     breed?: StringFieldUpdateOperationsInput | string
     age?: IntFieldUpdateOperationsInput | number
     size?: StringFieldUpdateOperationsInput | string
+    gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+    specialNeeds?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     temperament?: StringFieldUpdateOperationsInput | string
     medicalHistory?: StringFieldUpdateOperationsInput | string
+    helthStatus?: StringFieldUpdateOperationsInput | string
     adoptionRequirements?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5391,14 +5814,18 @@ export namespace Prisma {
   export type PetUncheckedUpdateWithoutAdoptionRequestInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
+    photo?: StringFieldUpdateOperationsInput | string
     species?: StringFieldUpdateOperationsInput | string
     breed?: StringFieldUpdateOperationsInput | string
     age?: IntFieldUpdateOperationsInput | number
     size?: StringFieldUpdateOperationsInput | string
+    gender?: EnumGenderFieldUpdateOperationsInput | $Enums.Gender
+    specialNeeds?: StringFieldUpdateOperationsInput | string
     location?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     temperament?: StringFieldUpdateOperationsInput | string
     medicalHistory?: StringFieldUpdateOperationsInput | string
+    helthStatus?: StringFieldUpdateOperationsInput | string
     adoptionRequirements?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

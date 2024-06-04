@@ -3,7 +3,7 @@ import { userController } from "./user.controller";
 import { userValidation } from "./user.validation";
 import validationRequest from "../../middlewares/validationRequest";
 import auth from "../../middlewares/auth";
-import { UserRole } from "@prisma/client";
+import { UserRole } from "../../../../prisma/generated/client";
 
 const router = express.Router();
 
@@ -19,11 +19,11 @@ router.post(
   userController.loginUser
 );
 
-router.get("/profile", auth(UserRole.USER), userController.findProfile);
+router.get("/profile", auth(UserRole.CUSTOMER), userController.findProfile);
 
 router.put(
   "/profile",
-  auth(UserRole.USER),
+  auth(UserRole.CUSTOMER),
   validationRequest(userValidation.updateUserValidation),
   userController.updateUser
 );
