@@ -15,6 +15,7 @@ model User {
   email           String
   password        String
   role            UserRole         @default(CUSTOMER)
+  status          UserStatus       @default(ACTIVATE)
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
   AdoptionRequest AdoptionRequest?
@@ -31,7 +32,7 @@ model Pet {
   age                  Int              @default(0)
   size                 String
   gender               Gender           @default(MALE)
-  specialNeeds         String
+  specialNeeds         String?
   location             String
   description          String
   temperament          String
@@ -62,6 +63,11 @@ model AdoptionRequest {
 enum UserRole {
   CUSTOMER
   ADMIN
+}
+
+enum UserStatus {
+  ACTIVATE
+  DEACTIVATE
 }
 
 enum Status {

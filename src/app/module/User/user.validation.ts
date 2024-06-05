@@ -34,8 +34,34 @@ const updateUserValidation = z.object({
   }),
 });
 
+const changePasswordValidation = z.object({
+  body: z.object({
+    oldPassword: z.string({
+      required_error: "oldPassword is required!",
+    }),
+    newPassword: z.string({
+      required_error: "newPassword is required!",
+    }),
+  }),
+});
+
+const updateUserStatusValidation = z.object({
+  body: z.object({
+    status: z.enum(["ACTIVATE", "DEACTIVATE"]),
+  }),
+});
+
+const updateUserRoleValidation = z.object({
+  body: z.object({
+    role: z.enum(["CUSTOMER", "ADMIN"]),
+  }),
+});
+
 export const userValidation = {
   createUserValidation,
   loginUserValidation,
   updateUserValidation,
+  updateUserStatusValidation,
+  changePasswordValidation,
+  updateUserRoleValidation,
 };

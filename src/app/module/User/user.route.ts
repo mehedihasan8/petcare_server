@@ -19,17 +19,40 @@ router.post(
   userController.loginUser
 );
 
+router.put(
+  "/profile/pass-change",
+  auth(UserRole.ADMIN, UserRole.CUSTOMER),
+  validationRequest(userValidation.changePasswordValidation),
+  userController.changePassword
+);
+
 router.get(
   "/profile",
   auth(UserRole.ADMIN, UserRole.CUSTOMER),
   userController.findProfile
 );
 
+router.get("/users", auth(UserRole.ADMIN), userController.findAllUser);
+
 router.put(
   "/profile",
   auth(UserRole.ADMIN, UserRole.CUSTOMER),
   validationRequest(userValidation.updateUserValidation),
   userController.updateUser
+);
+
+router.put(
+  "/change-status/:id",
+  auth(UserRole.ADMIN),
+  validationRequest(userValidation.updateUserValidation),
+  userController.updateUserStatus
+);
+
+router.put(
+  "/change-role/:id",
+  auth(UserRole.ADMIN),
+  validationRequest(userValidation.updateUserRoleValidation),
+  userController.updateUserRole
 );
 
 export const UserRoutes = router;

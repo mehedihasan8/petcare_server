@@ -15,6 +15,7 @@ model User {
   email           String
   password        String
   role            UserRole         @default(CUSTOMER)
+  status          UserStatus       @default(ACTIVATE)
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
   AdoptionRequest AdoptionRequest?
@@ -62,6 +63,11 @@ model AdoptionRequest {
 enum UserRole {
   CUSTOMER
   ADMIN
+}
+
+enum UserStatus {
+  ACTIVATE
+  DEACTIVATE
 }
 
 enum Status {
