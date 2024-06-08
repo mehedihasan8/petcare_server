@@ -107,9 +107,20 @@ const updatePet = async (id: string, data: Partial<Pet>) => {
   return result;
 };
 
+const deletePet = async (id: string) => {
+  const result = await prisma.pet.delete({
+    where: {
+      id,
+    },
+  });
+
+  return result;
+};
+
 export const PetService = {
   createPet,
   getAllPet,
   getSinglePet,
   updatePet,
+  deletePet,
 };

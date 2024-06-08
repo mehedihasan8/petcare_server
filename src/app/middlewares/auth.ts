@@ -12,6 +12,8 @@ const auth = (...roles: string[]) => {
     try {
       const token = req.headers.authorization;
 
+      // console.log("token---=>", token);
+
       if (!token) {
         throw new Error("Undefined JWT");
       }

@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post(
   "/",
-  auth(UserRole.CUSTOMER),
+  auth(UserRole.ADMIN),
   validationRequest(PetValidation.createPetValidation),
   PetController.createPet
 );
@@ -19,9 +19,11 @@ router.get("/:id", PetController.getSinglePet);
 
 router.put(
   "/:petId",
-  auth(UserRole.CUSTOMER),
+  auth(UserRole.ADMIN),
   validationRequest(PetValidation.updatePetValidation),
   PetController.updatePet
 );
+
+router.delete("/:petId", auth(UserRole.ADMIN), PetController.deletePet);
 
 export const PetRoutes = router;

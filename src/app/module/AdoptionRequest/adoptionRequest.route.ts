@@ -14,11 +14,21 @@ router.post(
   AdoptionRequestController.createAdoptionRequest
 );
 
-router.get("/", AdoptionRequestController.getAllAdoptionRequest);
+router.get(
+  "/",
+  auth(UserRole.ADMIN),
+  AdoptionRequestController.getAllAdoptionRequest
+);
+
+router.get(
+  "/my",
+  auth(UserRole.CUSTOMER),
+  AdoptionRequestController.getAllAdoptionRequest
+);
 
 router.put(
   "/:requestId",
-  auth(UserRole.CUSTOMER),
+  auth(UserRole.ADMIN),
   validationRequest(AdoptionRequestValidation.updateAdoptionRequestValidation),
   AdoptionRequestController.updateAdoptionRequest
 );

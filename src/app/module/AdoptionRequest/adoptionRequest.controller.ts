@@ -3,6 +3,8 @@ import sendResponse from "../../../shared/sendResponse";
 import catchAsync from "../../../shared/catchAsync";
 import { AdoptionRequestService } from "./adoptionRequest.service";
 import { Request } from "express";
+import { pick } from "../../../shared/pick";
+import { TUser } from "../User/user.interface";
 
 const createAdoptionRequest = catchAsync(
   async (req: Request & { user?: any }, res) => {
@@ -20,7 +22,9 @@ const createAdoptionRequest = catchAsync(
 );
 
 const getAllAdoptionRequest = catchAsync(async (req, res) => {
-  const result = await AdoptionRequestService.getAllAdoptionRequest();
+  const options = pick(req.query, ["limit", "page", "sortBy", "sortOrder"]);
+
+  const result = await AdoptionRequestService.getAllAdoptionRequest(options);
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -28,6 +32,23 @@ const getAllAdoptionRequest = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
+const getMyAdoptionRequest = catchAsync(
+  async (req: Request & { user?: TUser }, res) => {
+    const options = pick(req.query, ["limit", "page", "sortBy", "sortOrder"]);
+
+    const result = await AdoptionRequestService.getMyAdoptionRequest(
+      req?.user?.userId!,
+      options
+    );
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Adoption requests retrieved successfully",
+      data: result,
+    });
+  }
+);
 
 const updateAdoptionRequest = catchAsync(async (req, res) => {
   const result = await AdoptionRequestService.updateAdoptionRequest(
@@ -46,4 +67,5 @@ export const AdoptionRequestController = {
   createAdoptionRequest,
   getAllAdoptionRequest,
   updateAdoptionRequest,
+  getMyAdoptionRequest,
 };

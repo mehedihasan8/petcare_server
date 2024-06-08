@@ -20,18 +20,17 @@ const globalErrorHandler = (
     errorDetails = zodError.errorDetails;
   } else if (err instanceof ApiError) {
     statusCode = err.statusCode;
-    message = "Something Went Wrong";
+    message = err.message;
     errorDetails = {
-      error: err.message,
+      error: err,
       statusCode: err.statusCode,
       stack: err.stack,
     };
   } else if (err instanceof Error) {
     message = err.message;
-    message = "Unauthorized Access";
     statusCode = 401;
     errorDetails = {
-      error: err.message,
+      error: err,
       statusCode: 401,
       stack: err.stack,
     };
