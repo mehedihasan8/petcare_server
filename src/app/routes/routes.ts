@@ -2,6 +2,7 @@ import express from "express";
 import { UserRoutes } from "../module/User/user.route";
 import { PetRoutes } from "../module/Pet/pet.route";
 import { AdoptionRequestRoutes } from "../module/AdoptionRequest/adoptionRequest.route";
+import { MetaRoutes } from "../module/Meta/meta.route";
 
 const router = express.Router();
 
@@ -17,6 +18,10 @@ const moduleRoutes = [
   {
     path: "/adoption-requests",
     routes: AdoptionRequestRoutes,
+  },
+  {
+    path: "/meta",
+    routes: MetaRoutes,
   },
 ];
 

@@ -151,14 +151,16 @@ const findAllUser = async () => {
 };
 
 const updateUser = async (id: string, data: Partial<User>) => {
-  const alreadyExist = await prisma.user.findFirst({
-    where: {
-      email: data.email,
-    },
-  });
+  if (data.email) {
+    const alreadyExist = await prisma.user.findFirst({
+      where: {
+        email: data.email,
+      },
+    });
 
-  if (alreadyExist) {
-    throw new ApiError(httpStatus.CONFLICT, "Email is already exist");
+    if (alreadyExist) {
+      throw new ApiError(httpStatus.CONFLICT, "Email is already exist");
+    }
   }
 
   const result = await prisma.user.update({

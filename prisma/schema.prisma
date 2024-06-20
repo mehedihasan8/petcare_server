@@ -9,29 +9,29 @@ datasource db {
 }
 
 model User {
-  id              String           @id @default(uuid())
+  id              String            @id @default(uuid())
   name            String
   photo           String?
   email           String
   password        String
-  role            UserRole         @default(CUSTOMER)
-  status          UserStatus       @default(ACTIVATE)
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
-  AdoptionRequest AdoptionRequest?
+  role            UserRole          @default(CUSTOMER)
+  status          UserStatus        @default(ACTIVATE)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  AdoptionRequest AdoptionRequest[]
 
   @@map("users")
 }
 
 model Pet {
-  id                   String           @id @default(uuid())
+  id                   String            @id @default(uuid())
   name                 String
   photo                String
   species              String
   breed                String
-  age                  Int              @default(0)
+  age                  Int               @default(0)
   size                 String
-  gender               Gender           @default(MALE)
+  gender               Gender            @default(MALE)
   specialNeeds         String?
   location             String
   description          String
@@ -39,9 +39,9 @@ model Pet {
   medicalHistory       String
   helthStatus          String
   adoptionRequirements String
-  createdAt            DateTime         @default(now())
-  updatedAt            DateTime         @updatedAt
-  AdoptionRequest      AdoptionRequest?
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+  AdoptionRequest      AdoptionRequest[]
 
   @@map("pets")
 }
@@ -49,14 +49,15 @@ model Pet {
 model AdoptionRequest {
   id                     String   @id @default(uuid())
   user                   User     @relation(fields: [userId], references: [id])
-  userId                 String   @unique
+  userId                 String
   pet                    Pet      @relation(fields: [petId], references: [id])
-  petId                  String   @unique
+  petId                  String
   status                 Status   @default(PENDING)
   petOwnershipExperience String
   createdAt              DateTime @default(now())
   updatedAt              DateTime @updatedAt
 
+  @@unique([userId, petId])
   @@map("adoptionrequests")
 }
 

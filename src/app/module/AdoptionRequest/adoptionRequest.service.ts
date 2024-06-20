@@ -8,21 +8,30 @@ const createAdoptionRequest = async (
   userId: string,
   payload: AdoptionRequest
 ) => {
-  await prisma.user.findUniqueOrThrow({
+  const user = await prisma.user.findUnique({
     where: {
       id: userId,
     },
   });
 
-  await prisma.pet.findUniqueOrThrow({
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+
+  const pet = await prisma.pet.findUnique({
     where: {
       id: payload.petId,
     },
   });
 
-  const isRequested = await prisma.adoptionRequest.findUnique({
+  if (!pet) {
+    throw new ApiError(404, "Pet not found");
+  }
+
+  const isRequested = await prisma.adoptionRequest.findFirst({
     where: {
       userId,
+      petId: payload.petId,
     },
   });
 
@@ -67,6 +76,12 @@ const getMyAdoptionRequest = async (
   options: TPaginationOptions
 ) => {
   const { page, limit, skip } = paginationHelper.calculatePagination(options);
+
+  await prisma.user.findUniqueOrThrow({
+    where: {
+      id: userId,
+    },
+  });
 
   const result = await prisma.adoptionRequest.findMany({
     where: {

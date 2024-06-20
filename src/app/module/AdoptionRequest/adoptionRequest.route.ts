@@ -23,7 +23,7 @@ router.get(
 router.get(
   "/my",
   auth(UserRole.CUSTOMER),
-  AdoptionRequestController.getAllAdoptionRequest
+  AdoptionRequestController.getMyAdoptionRequest
 );
 
 router.put(

@@ -5,6 +5,9 @@ const createPetValidation = z.object({
     name: z.string({
       required_error: "Name is required!",
     }),
+    photo: z.string({
+      required_error: "Photo is required!",
+    }),
     species: z.string({
       required_error: "Species is required!",
     }),
@@ -21,6 +24,10 @@ const createPetValidation = z.object({
     size: z.string({
       required_error: "Size is required!",
     }),
+    gender: z.enum(["MALE", "FEMALE"]),
+    specialNeeds: z.string({
+      required_error: "SpecialNeeds is required!",
+    }),
     location: z.string({
       required_error: "Location is required!",
     }),
@@ -32,6 +39,9 @@ const createPetValidation = z.object({
     }),
     medicalHistory: z.string({
       required_error: "Medical history is required!",
+    }),
+    helthStatus: z.string({
+      required_error: "HelthStatus history is required!",
     }),
     adoptionRequirements: z.string({
       required_error: "Adoption requirements are required!",

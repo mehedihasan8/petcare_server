@@ -1099,6 +1099,67 @@ export namespace Prisma {
    */
 
 
+  /**
+   * Count Type UserCountOutputType
+   */
+
+  export type UserCountOutputType = {
+    AdoptionRequest: number
+  }
+
+  export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    AdoptionRequest?: boolean | UserCountOutputTypeCountAdoptionRequestArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCountOutputType
+     */
+    select?: UserCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAdoptionRequestArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AdoptionRequestWhereInput
+  }
+
+
+  /**
+   * Count Type PetCountOutputType
+   */
+
+  export type PetCountOutputType = {
+    AdoptionRequest: number
+  }
+
+  export type PetCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    AdoptionRequest?: boolean | PetCountOutputTypeCountAdoptionRequestArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PetCountOutputType without action
+   */
+  export type PetCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PetCountOutputType
+     */
+    select?: PetCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PetCountOutputType without action
+   */
+  export type PetCountOutputTypeCountAdoptionRequestArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AdoptionRequestWhereInput
+  }
+
 
   /**
    * Models
@@ -1301,6 +1362,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     AdoptionRequest?: boolean | User$AdoptionRequestArgs<ExtArgs>
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -1318,13 +1380,14 @@ export namespace Prisma {
 
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     AdoptionRequest?: boolean | User$AdoptionRequestArgs<ExtArgs>
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
-      AdoptionRequest: Prisma.$AdoptionRequestPayload<ExtArgs> | null
+      AdoptionRequest: Prisma.$AdoptionRequestPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -1727,7 +1790,7 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
 
-    AdoptionRequest<T extends User$AdoptionRequestArgs<ExtArgs> = {}>(args?: Subset<T, User$AdoptionRequestArgs<ExtArgs>>): Prisma__AdoptionRequestClient<$Result.GetResult<Prisma.$AdoptionRequestPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
+    AdoptionRequest<T extends User$AdoptionRequestArgs<ExtArgs> = {}>(args?: Subset<T, User$AdoptionRequestArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdoptionRequestPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2096,6 +2159,11 @@ export namespace Prisma {
      */
     include?: AdoptionRequestInclude<ExtArgs> | null
     where?: AdoptionRequestWhereInput
+    orderBy?: AdoptionRequestOrderByWithRelationInput | AdoptionRequestOrderByWithRelationInput[]
+    cursor?: AdoptionRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AdoptionRequestScalarFieldEnum | AdoptionRequestScalarFieldEnum[]
   }
 
   /**
@@ -2408,6 +2476,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     AdoptionRequest?: boolean | Pet$AdoptionRequestArgs<ExtArgs>
+    _count?: boolean | PetCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["pet"]>
 
   export type PetSelectScalar = {
@@ -2433,13 +2502,14 @@ export namespace Prisma {
 
   export type PetInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     AdoptionRequest?: boolean | Pet$AdoptionRequestArgs<ExtArgs>
+    _count?: boolean | PetCountOutputTypeDefaultArgs<ExtArgs>
   }
 
 
   export type $PetPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Pet"
     objects: {
-      AdoptionRequest: Prisma.$AdoptionRequestPayload<ExtArgs> | null
+      AdoptionRequest: Prisma.$AdoptionRequestPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2850,7 +2920,7 @@ export namespace Prisma {
   export interface Prisma__PetClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
 
-    AdoptionRequest<T extends Pet$AdoptionRequestArgs<ExtArgs> = {}>(args?: Subset<T, Pet$AdoptionRequestArgs<ExtArgs>>): Prisma__AdoptionRequestClient<$Result.GetResult<Prisma.$AdoptionRequestPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
+    AdoptionRequest<T extends Pet$AdoptionRequestArgs<ExtArgs> = {}>(args?: Subset<T, Pet$AdoptionRequestArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdoptionRequestPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3227,6 +3297,11 @@ export namespace Prisma {
      */
     include?: AdoptionRequestInclude<ExtArgs> | null
     where?: AdoptionRequestWhereInput
+    orderBy?: AdoptionRequestOrderByWithRelationInput | AdoptionRequestOrderByWithRelationInput[]
+    cursor?: AdoptionRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AdoptionRequestScalarFieldEnum | AdoptionRequestScalarFieldEnum[]
   }
 
   /**
@@ -4443,7 +4518,7 @@ export namespace Prisma {
     status?: EnumUserStatusFilter<"User"> | $Enums.UserStatus
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
-    AdoptionRequest?: XOR<AdoptionRequestNullableRelationFilter, AdoptionRequestWhereInput> | null
+    AdoptionRequest?: AdoptionRequestListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -4456,7 +4531,7 @@ export namespace Prisma {
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    AdoptionRequest?: AdoptionRequestOrderByWithRelationInput
+    AdoptionRequest?: AdoptionRequestOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -4472,7 +4547,7 @@ export namespace Prisma {
     status?: EnumUserStatusFilter<"User"> | $Enums.UserStatus
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
-    AdoptionRequest?: XOR<AdoptionRequestNullableRelationFilter, AdoptionRequestWhereInput> | null
+    AdoptionRequest?: AdoptionRequestListRelationFilter
   }, "id">
 
   export type UserOrderByWithAggregationInput = {
@@ -4526,7 +4601,7 @@ export namespace Prisma {
     adoptionRequirements?: StringFilter<"Pet"> | string
     createdAt?: DateTimeFilter<"Pet"> | Date | string
     updatedAt?: DateTimeFilter<"Pet"> | Date | string
-    AdoptionRequest?: XOR<AdoptionRequestNullableRelationFilter, AdoptionRequestWhereInput> | null
+    AdoptionRequest?: AdoptionRequestListRelationFilter
   }
 
   export type PetOrderByWithRelationInput = {
@@ -4547,7 +4622,7 @@ export namespace Prisma {
     adoptionRequirements?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    AdoptionRequest?: AdoptionRequestOrderByWithRelationInput
+    AdoptionRequest?: AdoptionRequestOrderByRelationAggregateInput
   }
 
   export type PetWhereUniqueInput = Prisma.AtLeast<{
@@ -4571,7 +4646,7 @@ export namespace Prisma {
     adoptionRequirements?: StringFilter<"Pet"> | string
     createdAt?: DateTimeFilter<"Pet"> | Date | string
     updatedAt?: DateTimeFilter<"Pet"> | Date | string
-    AdoptionRequest?: XOR<AdoptionRequestNullableRelationFilter, AdoptionRequestWhereInput> | null
+    AdoptionRequest?: AdoptionRequestListRelationFilter
   }, "id">
 
   export type PetOrderByWithAggregationInput = {
@@ -4651,18 +4726,19 @@ export namespace Prisma {
 
   export type AdoptionRequestWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    userId?: string
-    petId?: string
+    userId_petId?: AdoptionRequestUserIdPetIdCompoundUniqueInput
     AND?: AdoptionRequestWhereInput | AdoptionRequestWhereInput[]
     OR?: AdoptionRequestWhereInput[]
     NOT?: AdoptionRequestWhereInput | AdoptionRequestWhereInput[]
+    userId?: StringFilter<"AdoptionRequest"> | string
+    petId?: StringFilter<"AdoptionRequest"> | string
     status?: EnumStatusFilter<"AdoptionRequest"> | $Enums.Status
     petOwnershipExperience?: StringFilter<"AdoptionRequest"> | string
     createdAt?: DateTimeFilter<"AdoptionRequest"> | Date | string
     updatedAt?: DateTimeFilter<"AdoptionRequest"> | Date | string
     user?: XOR<UserRelationFilter, UserWhereInput>
     pet?: XOR<PetRelationFilter, PetWhereInput>
-  }, "id" | "userId" | "petId">
+  }, "id" | "userId_petId">
 
   export type AdoptionRequestOrderByWithAggregationInput = {
     id?: SortOrder
@@ -4700,7 +4776,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    AdoptionRequest?: AdoptionRequestCreateNestedOneWithoutUserInput
+    AdoptionRequest?: AdoptionRequestCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -4713,7 +4789,7 @@ export namespace Prisma {
     status?: $Enums.UserStatus
     createdAt?: Date | string
     updatedAt?: Date | string
-    AdoptionRequest?: AdoptionRequestUncheckedCreateNestedOneWithoutUserInput
+    AdoptionRequest?: AdoptionRequestUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -4726,7 +4802,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    AdoptionRequest?: AdoptionRequestUpdateOneWithoutUserNestedInput
+    AdoptionRequest?: AdoptionRequestUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -4739,7 +4815,7 @@ export namespace Prisma {
     status?: EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    AdoptionRequest?: AdoptionRequestUncheckedUpdateOneWithoutUserNestedInput
+    AdoptionRequest?: AdoptionRequestUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -4796,7 +4872,7 @@ export namespace Prisma {
     adoptionRequirements: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    AdoptionRequest?: AdoptionRequestCreateNestedOneWithoutPetInput
+    AdoptionRequest?: AdoptionRequestCreateNestedManyWithoutPetInput
   }
 
   export type PetUncheckedCreateInput = {
@@ -4817,7 +4893,7 @@ export namespace Prisma {
     adoptionRequirements: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    AdoptionRequest?: AdoptionRequestUncheckedCreateNestedOneWithoutPetInput
+    AdoptionRequest?: AdoptionRequestUncheckedCreateNestedManyWithoutPetInput
   }
 
   export type PetUpdateInput = {
@@ -4838,7 +4914,7 @@ export namespace Prisma {
     adoptionRequirements?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    AdoptionRequest?: AdoptionRequestUpdateOneWithoutPetNestedInput
+    AdoptionRequest?: AdoptionRequestUpdateManyWithoutPetNestedInput
   }
 
   export type PetUncheckedUpdateInput = {
@@ -4859,7 +4935,7 @@ export namespace Prisma {
     adoptionRequirements?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    AdoptionRequest?: AdoptionRequestUncheckedUpdateOneWithoutPetNestedInput
+    AdoptionRequest?: AdoptionRequestUncheckedUpdateManyWithoutPetNestedInput
   }
 
   export type PetCreateManyInput = {
@@ -5045,14 +5121,19 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type AdoptionRequestNullableRelationFilter = {
-    is?: AdoptionRequestWhereInput | null
-    isNot?: AdoptionRequestWhereInput | null
+  export type AdoptionRequestListRelationFilter = {
+    every?: AdoptionRequestWhereInput
+    some?: AdoptionRequestWhereInput
+    none?: AdoptionRequestWhereInput
   }
 
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type AdoptionRequestOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type UserCountOrderByAggregateInput = {
@@ -5290,6 +5371,11 @@ export namespace Prisma {
     isNot?: PetWhereInput
   }
 
+  export type AdoptionRequestUserIdPetIdCompoundUniqueInput = {
+    userId: string
+    petId: string
+  }
+
   export type AdoptionRequestCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
@@ -5330,16 +5416,18 @@ export namespace Prisma {
     _max?: NestedEnumStatusFilter<$PrismaModel>
   }
 
-  export type AdoptionRequestCreateNestedOneWithoutUserInput = {
-    create?: XOR<AdoptionRequestCreateWithoutUserInput, AdoptionRequestUncheckedCreateWithoutUserInput>
-    connectOrCreate?: AdoptionRequestCreateOrConnectWithoutUserInput
-    connect?: AdoptionRequestWhereUniqueInput
+  export type AdoptionRequestCreateNestedManyWithoutUserInput = {
+    create?: XOR<AdoptionRequestCreateWithoutUserInput, AdoptionRequestUncheckedCreateWithoutUserInput> | AdoptionRequestCreateWithoutUserInput[] | AdoptionRequestUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AdoptionRequestCreateOrConnectWithoutUserInput | AdoptionRequestCreateOrConnectWithoutUserInput[]
+    createMany?: AdoptionRequestCreateManyUserInputEnvelope
+    connect?: AdoptionRequestWhereUniqueInput | AdoptionRequestWhereUniqueInput[]
   }
 
-  export type AdoptionRequestUncheckedCreateNestedOneWithoutUserInput = {
-    create?: XOR<AdoptionRequestCreateWithoutUserInput, AdoptionRequestUncheckedCreateWithoutUserInput>
-    connectOrCreate?: AdoptionRequestCreateOrConnectWithoutUserInput
-    connect?: AdoptionRequestWhereUniqueInput
+  export type AdoptionRequestUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<AdoptionRequestCreateWithoutUserInput, AdoptionRequestUncheckedCreateWithoutUserInput> | AdoptionRequestCreateWithoutUserInput[] | AdoptionRequestUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AdoptionRequestCreateOrConnectWithoutUserInput | AdoptionRequestCreateOrConnectWithoutUserInput[]
+    createMany?: AdoptionRequestCreateManyUserInputEnvelope
+    connect?: AdoptionRequestWhereUniqueInput | AdoptionRequestWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -5362,36 +5450,46 @@ export namespace Prisma {
     set?: Date | string
   }
 
-  export type AdoptionRequestUpdateOneWithoutUserNestedInput = {
-    create?: XOR<AdoptionRequestCreateWithoutUserInput, AdoptionRequestUncheckedCreateWithoutUserInput>
-    connectOrCreate?: AdoptionRequestCreateOrConnectWithoutUserInput
-    upsert?: AdoptionRequestUpsertWithoutUserInput
-    disconnect?: AdoptionRequestWhereInput | boolean
-    delete?: AdoptionRequestWhereInput | boolean
-    connect?: AdoptionRequestWhereUniqueInput
-    update?: XOR<XOR<AdoptionRequestUpdateToOneWithWhereWithoutUserInput, AdoptionRequestUpdateWithoutUserInput>, AdoptionRequestUncheckedUpdateWithoutUserInput>
+  export type AdoptionRequestUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AdoptionRequestCreateWithoutUserInput, AdoptionRequestUncheckedCreateWithoutUserInput> | AdoptionRequestCreateWithoutUserInput[] | AdoptionRequestUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AdoptionRequestCreateOrConnectWithoutUserInput | AdoptionRequestCreateOrConnectWithoutUserInput[]
+    upsert?: AdoptionRequestUpsertWithWhereUniqueWithoutUserInput | AdoptionRequestUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AdoptionRequestCreateManyUserInputEnvelope
+    set?: AdoptionRequestWhereUniqueInput | AdoptionRequestWhereUniqueInput[]
+    disconnect?: AdoptionRequestWhereUniqueInput | AdoptionRequestWhereUniqueInput[]
+    delete?: AdoptionRequestWhereUniqueInput | AdoptionRequestWhereUniqueInput[]
+    connect?: AdoptionRequestWhereUniqueInput | AdoptionRequestWhereUniqueInput[]
+    update?: AdoptionRequestUpdateWithWhereUniqueWithoutUserInput | AdoptionRequestUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AdoptionRequestUpdateManyWithWhereWithoutUserInput | AdoptionRequestUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AdoptionRequestScalarWhereInput | AdoptionRequestScalarWhereInput[]
   }
 
-  export type AdoptionRequestUncheckedUpdateOneWithoutUserNestedInput = {
-    create?: XOR<AdoptionRequestCreateWithoutUserInput, AdoptionRequestUncheckedCreateWithoutUserInput>
-    connectOrCreate?: AdoptionRequestCreateOrConnectWithoutUserInput
-    upsert?: AdoptionRequestUpsertWithoutUserInput
-    disconnect?: AdoptionRequestWhereInput | boolean
-    delete?: AdoptionRequestWhereInput | boolean
-    connect?: AdoptionRequestWhereUniqueInput
-    update?: XOR<XOR<AdoptionRequestUpdateToOneWithWhereWithoutUserInput, AdoptionRequestUpdateWithoutUserInput>, AdoptionRequestUncheckedUpdateWithoutUserInput>
+  export type AdoptionRequestUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<AdoptionRequestCreateWithoutUserInput, AdoptionRequestUncheckedCreateWithoutUserInput> | AdoptionRequestCreateWithoutUserInput[] | AdoptionRequestUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: AdoptionRequestCreateOrConnectWithoutUserInput | AdoptionRequestCreateOrConnectWithoutUserInput[]
+    upsert?: AdoptionRequestUpsertWithWhereUniqueWithoutUserInput | AdoptionRequestUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: AdoptionRequestCreateManyUserInputEnvelope
+    set?: AdoptionRequestWhereUniqueInput | AdoptionRequestWhereUniqueInput[]
+    disconnect?: AdoptionRequestWhereUniqueInput | AdoptionRequestWhereUniqueInput[]
+    delete?: AdoptionRequestWhereUniqueInput | AdoptionRequestWhereUniqueInput[]
+    connect?: AdoptionRequestWhereUniqueInput | AdoptionRequestWhereUniqueInput[]
+    update?: AdoptionRequestUpdateWithWhereUniqueWithoutUserInput | AdoptionRequestUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: AdoptionRequestUpdateManyWithWhereWithoutUserInput | AdoptionRequestUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: AdoptionRequestScalarWhereInput | AdoptionRequestScalarWhereInput[]
   }
 
-  export type AdoptionRequestCreateNestedOneWithoutPetInput = {
-    create?: XOR<AdoptionRequestCreateWithoutPetInput, AdoptionRequestUncheckedCreateWithoutPetInput>
-    connectOrCreate?: AdoptionRequestCreateOrConnectWithoutPetInput
-    connect?: AdoptionRequestWhereUniqueInput
+  export type AdoptionRequestCreateNestedManyWithoutPetInput = {
+    create?: XOR<AdoptionRequestCreateWithoutPetInput, AdoptionRequestUncheckedCreateWithoutPetInput> | AdoptionRequestCreateWithoutPetInput[] | AdoptionRequestUncheckedCreateWithoutPetInput[]
+    connectOrCreate?: AdoptionRequestCreateOrConnectWithoutPetInput | AdoptionRequestCreateOrConnectWithoutPetInput[]
+    createMany?: AdoptionRequestCreateManyPetInputEnvelope
+    connect?: AdoptionRequestWhereUniqueInput | AdoptionRequestWhereUniqueInput[]
   }
 
-  export type AdoptionRequestUncheckedCreateNestedOneWithoutPetInput = {
-    create?: XOR<AdoptionRequestCreateWithoutPetInput, AdoptionRequestUncheckedCreateWithoutPetInput>
-    connectOrCreate?: AdoptionRequestCreateOrConnectWithoutPetInput
-    connect?: AdoptionRequestWhereUniqueInput
+  export type AdoptionRequestUncheckedCreateNestedManyWithoutPetInput = {
+    create?: XOR<AdoptionRequestCreateWithoutPetInput, AdoptionRequestUncheckedCreateWithoutPetInput> | AdoptionRequestCreateWithoutPetInput[] | AdoptionRequestUncheckedCreateWithoutPetInput[]
+    connectOrCreate?: AdoptionRequestCreateOrConnectWithoutPetInput | AdoptionRequestCreateOrConnectWithoutPetInput[]
+    createMany?: AdoptionRequestCreateManyPetInputEnvelope
+    connect?: AdoptionRequestWhereUniqueInput | AdoptionRequestWhereUniqueInput[]
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -5406,24 +5504,32 @@ export namespace Prisma {
     set?: $Enums.Gender
   }
 
-  export type AdoptionRequestUpdateOneWithoutPetNestedInput = {
-    create?: XOR<AdoptionRequestCreateWithoutPetInput, AdoptionRequestUncheckedCreateWithoutPetInput>
-    connectOrCreate?: AdoptionRequestCreateOrConnectWithoutPetInput
-    upsert?: AdoptionRequestUpsertWithoutPetInput
-    disconnect?: AdoptionRequestWhereInput | boolean
-    delete?: AdoptionRequestWhereInput | boolean
-    connect?: AdoptionRequestWhereUniqueInput
-    update?: XOR<XOR<AdoptionRequestUpdateToOneWithWhereWithoutPetInput, AdoptionRequestUpdateWithoutPetInput>, AdoptionRequestUncheckedUpdateWithoutPetInput>
+  export type AdoptionRequestUpdateManyWithoutPetNestedInput = {
+    create?: XOR<AdoptionRequestCreateWithoutPetInput, AdoptionRequestUncheckedCreateWithoutPetInput> | AdoptionRequestCreateWithoutPetInput[] | AdoptionRequestUncheckedCreateWithoutPetInput[]
+    connectOrCreate?: AdoptionRequestCreateOrConnectWithoutPetInput | AdoptionRequestCreateOrConnectWithoutPetInput[]
+    upsert?: AdoptionRequestUpsertWithWhereUniqueWithoutPetInput | AdoptionRequestUpsertWithWhereUniqueWithoutPetInput[]
+    createMany?: AdoptionRequestCreateManyPetInputEnvelope
+    set?: AdoptionRequestWhereUniqueInput | AdoptionRequestWhereUniqueInput[]
+    disconnect?: AdoptionRequestWhereUniqueInput | AdoptionRequestWhereUniqueInput[]
+    delete?: AdoptionRequestWhereUniqueInput | AdoptionRequestWhereUniqueInput[]
+    connect?: AdoptionRequestWhereUniqueInput | AdoptionRequestWhereUniqueInput[]
+    update?: AdoptionRequestUpdateWithWhereUniqueWithoutPetInput | AdoptionRequestUpdateWithWhereUniqueWithoutPetInput[]
+    updateMany?: AdoptionRequestUpdateManyWithWhereWithoutPetInput | AdoptionRequestUpdateManyWithWhereWithoutPetInput[]
+    deleteMany?: AdoptionRequestScalarWhereInput | AdoptionRequestScalarWhereInput[]
   }
 
-  export type AdoptionRequestUncheckedUpdateOneWithoutPetNestedInput = {
-    create?: XOR<AdoptionRequestCreateWithoutPetInput, AdoptionRequestUncheckedCreateWithoutPetInput>
-    connectOrCreate?: AdoptionRequestCreateOrConnectWithoutPetInput
-    upsert?: AdoptionRequestUpsertWithoutPetInput
-    disconnect?: AdoptionRequestWhereInput | boolean
-    delete?: AdoptionRequestWhereInput | boolean
-    connect?: AdoptionRequestWhereUniqueInput
-    update?: XOR<XOR<AdoptionRequestUpdateToOneWithWhereWithoutPetInput, AdoptionRequestUpdateWithoutPetInput>, AdoptionRequestUncheckedUpdateWithoutPetInput>
+  export type AdoptionRequestUncheckedUpdateManyWithoutPetNestedInput = {
+    create?: XOR<AdoptionRequestCreateWithoutPetInput, AdoptionRequestUncheckedCreateWithoutPetInput> | AdoptionRequestCreateWithoutPetInput[] | AdoptionRequestUncheckedCreateWithoutPetInput[]
+    connectOrCreate?: AdoptionRequestCreateOrConnectWithoutPetInput | AdoptionRequestCreateOrConnectWithoutPetInput[]
+    upsert?: AdoptionRequestUpsertWithWhereUniqueWithoutPetInput | AdoptionRequestUpsertWithWhereUniqueWithoutPetInput[]
+    createMany?: AdoptionRequestCreateManyPetInputEnvelope
+    set?: AdoptionRequestWhereUniqueInput | AdoptionRequestWhereUniqueInput[]
+    disconnect?: AdoptionRequestWhereUniqueInput | AdoptionRequestWhereUniqueInput[]
+    delete?: AdoptionRequestWhereUniqueInput | AdoptionRequestWhereUniqueInput[]
+    connect?: AdoptionRequestWhereUniqueInput | AdoptionRequestWhereUniqueInput[]
+    update?: AdoptionRequestUpdateWithWhereUniqueWithoutPetInput | AdoptionRequestUpdateWithWhereUniqueWithoutPetInput[]
+    updateMany?: AdoptionRequestUpdateManyWithWhereWithoutPetInput | AdoptionRequestUpdateManyWithWhereWithoutPetInput[]
+    deleteMany?: AdoptionRequestScalarWhereInput | AdoptionRequestScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutAdoptionRequestInput = {
@@ -5685,33 +5791,38 @@ export namespace Prisma {
     create: XOR<AdoptionRequestCreateWithoutUserInput, AdoptionRequestUncheckedCreateWithoutUserInput>
   }
 
-  export type AdoptionRequestUpsertWithoutUserInput = {
-    update: XOR<AdoptionRequestUpdateWithoutUserInput, AdoptionRequestUncheckedUpdateWithoutUserInput>
-    create: XOR<AdoptionRequestCreateWithoutUserInput, AdoptionRequestUncheckedCreateWithoutUserInput>
-    where?: AdoptionRequestWhereInput
+  export type AdoptionRequestCreateManyUserInputEnvelope = {
+    data: AdoptionRequestCreateManyUserInput | AdoptionRequestCreateManyUserInput[]
+    skipDuplicates?: boolean
   }
 
-  export type AdoptionRequestUpdateToOneWithWhereWithoutUserInput = {
-    where?: AdoptionRequestWhereInput
+  export type AdoptionRequestUpsertWithWhereUniqueWithoutUserInput = {
+    where: AdoptionRequestWhereUniqueInput
+    update: XOR<AdoptionRequestUpdateWithoutUserInput, AdoptionRequestUncheckedUpdateWithoutUserInput>
+    create: XOR<AdoptionRequestCreateWithoutUserInput, AdoptionRequestUncheckedCreateWithoutUserInput>
+  }
+
+  export type AdoptionRequestUpdateWithWhereUniqueWithoutUserInput = {
+    where: AdoptionRequestWhereUniqueInput
     data: XOR<AdoptionRequestUpdateWithoutUserInput, AdoptionRequestUncheckedUpdateWithoutUserInput>
   }
 
-  export type AdoptionRequestUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
-    petOwnershipExperience?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    pet?: PetUpdateOneRequiredWithoutAdoptionRequestNestedInput
+  export type AdoptionRequestUpdateManyWithWhereWithoutUserInput = {
+    where: AdoptionRequestScalarWhereInput
+    data: XOR<AdoptionRequestUpdateManyMutationInput, AdoptionRequestUncheckedUpdateManyWithoutUserInput>
   }
 
-  export type AdoptionRequestUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    petId?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
-    petOwnershipExperience?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type AdoptionRequestScalarWhereInput = {
+    AND?: AdoptionRequestScalarWhereInput | AdoptionRequestScalarWhereInput[]
+    OR?: AdoptionRequestScalarWhereInput[]
+    NOT?: AdoptionRequestScalarWhereInput | AdoptionRequestScalarWhereInput[]
+    id?: StringFilter<"AdoptionRequest"> | string
+    userId?: StringFilter<"AdoptionRequest"> | string
+    petId?: StringFilter<"AdoptionRequest"> | string
+    status?: EnumStatusFilter<"AdoptionRequest"> | $Enums.Status
+    petOwnershipExperience?: StringFilter<"AdoptionRequest"> | string
+    createdAt?: DateTimeFilter<"AdoptionRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"AdoptionRequest"> | Date | string
   }
 
   export type AdoptionRequestCreateWithoutPetInput = {
@@ -5737,33 +5848,25 @@ export namespace Prisma {
     create: XOR<AdoptionRequestCreateWithoutPetInput, AdoptionRequestUncheckedCreateWithoutPetInput>
   }
 
-  export type AdoptionRequestUpsertWithoutPetInput = {
-    update: XOR<AdoptionRequestUpdateWithoutPetInput, AdoptionRequestUncheckedUpdateWithoutPetInput>
-    create: XOR<AdoptionRequestCreateWithoutPetInput, AdoptionRequestUncheckedCreateWithoutPetInput>
-    where?: AdoptionRequestWhereInput
+  export type AdoptionRequestCreateManyPetInputEnvelope = {
+    data: AdoptionRequestCreateManyPetInput | AdoptionRequestCreateManyPetInput[]
+    skipDuplicates?: boolean
   }
 
-  export type AdoptionRequestUpdateToOneWithWhereWithoutPetInput = {
-    where?: AdoptionRequestWhereInput
+  export type AdoptionRequestUpsertWithWhereUniqueWithoutPetInput = {
+    where: AdoptionRequestWhereUniqueInput
+    update: XOR<AdoptionRequestUpdateWithoutPetInput, AdoptionRequestUncheckedUpdateWithoutPetInput>
+    create: XOR<AdoptionRequestCreateWithoutPetInput, AdoptionRequestUncheckedCreateWithoutPetInput>
+  }
+
+  export type AdoptionRequestUpdateWithWhereUniqueWithoutPetInput = {
+    where: AdoptionRequestWhereUniqueInput
     data: XOR<AdoptionRequestUpdateWithoutPetInput, AdoptionRequestUncheckedUpdateWithoutPetInput>
   }
 
-  export type AdoptionRequestUpdateWithoutPetInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
-    petOwnershipExperience?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutAdoptionRequestNestedInput
-  }
-
-  export type AdoptionRequestUncheckedUpdateWithoutPetInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
-    petOwnershipExperience?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  export type AdoptionRequestUpdateManyWithWhereWithoutPetInput = {
+    where: AdoptionRequestScalarWhereInput
+    data: XOR<AdoptionRequestUpdateManyMutationInput, AdoptionRequestUncheckedUpdateManyWithoutPetInput>
   }
 
   export type UserCreateWithoutAdoptionRequestInput = {
@@ -5926,11 +6029,91 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type AdoptionRequestCreateManyUserInput = {
+    id?: string
+    petId: string
+    status?: $Enums.Status
+    petOwnershipExperience: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AdoptionRequestUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    petOwnershipExperience?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    pet?: PetUpdateOneRequiredWithoutAdoptionRequestNestedInput
+  }
+
+  export type AdoptionRequestUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    petId?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    petOwnershipExperience?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdoptionRequestUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    petId?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    petOwnershipExperience?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdoptionRequestCreateManyPetInput = {
+    id?: string
+    userId: string
+    status?: $Enums.Status
+    petOwnershipExperience: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AdoptionRequestUpdateWithoutPetInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    petOwnershipExperience?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAdoptionRequestNestedInput
+  }
+
+  export type AdoptionRequestUncheckedUpdateWithoutPetInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    petOwnershipExperience?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdoptionRequestUncheckedUpdateManyWithoutPetInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    status?: EnumStatusFieldUpdateOperationsInput | $Enums.Status
+    petOwnershipExperience?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
 
 
   /**
    * Aliases for legacy arg types
    */
+    /**
+     * @deprecated Use UserCountOutputTypeDefaultArgs instead
+     */
+    export type UserCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = UserCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use PetCountOutputTypeDefaultArgs instead
+     */
+    export type PetCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PetCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use UserDefaultArgs instead
      */
